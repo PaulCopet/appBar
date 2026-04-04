@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { EncryptedText } from './EncryptedText';
+import { TypewriterText } from './TypewriterText';
 
 type EchoMessageProps = {
     message: string;
@@ -13,7 +14,7 @@ export default function EchoMessage({ message, echoKey }: EchoMessageProps) {
         if (echoKey > 0) {
             const timer = setTimeout(() => {
                 setHiddenKeys((prev) => new Set(prev).add(echoKey));
-            }, 3500);
+            }, 6000); // 6 segundos de visibilidad total
             return () => clearTimeout(timer);
         }
     }, [echoKey]);
@@ -32,7 +33,7 @@ export default function EchoMessage({ message, echoKey }: EchoMessageProps) {
             <span className="text-[16px] text-[#1a7a00]">
                 <EncryptedText text="[root@rock ~]# echo " revealDelayMs={80} />
             </span>
-            {message} <span className="animate-blink font-bold">_</span>
+            <TypewriterText text={message} delay={1600} speed={40} cursorClassName="text-[#39ff14]" />
         </div>
     );
 }
