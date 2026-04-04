@@ -1,4 +1,6 @@
 import type { Song } from '../../data/songs';
+import { EncryptedText } from './EncryptedText';
+import { TypewriterText } from './TypewriterText';
 
 type SelectedTrackModalProps = {
     selectedSong: Song | null;
@@ -21,12 +23,14 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
                     [X]
                 </button>
 
-                <p className="text-[12px] text-[#1a7a00] mb-2">$ SELECTED_TRACK --confirm-selection</p>
+                <p className="text-[12px] text-[#1a7a00] mb-2">
+                    <EncryptedText text="$ SELECTED_TRACK --confirm-selection" revealDelayMs={10} />
+                </p>
                 <div className="mb-6 font-terminal-display text-[24px] text-[#80ff60] [text-shadow:0_0_15px_#39ff14] text-center border-y border-[#1a7a00] py-4">
-                    {`> "${selectedSong.title}"`}
+                    <TypewriterText text={`> "${selectedSong.title}"`} delay={300} speed={15} cursorClassName="text-[#80ff60]" />
                     <br />
                     <span className="text-[18px] text-[#39ff14]">
-                        {selectedSong.artist} ({selectedSong.year})
+                        <TypewriterText text={`${selectedSong.artist} (${selectedSong.year})`} delay={800} speed={15} cursorClassName="text-[#39ff14]" />
                     </span>
                 </div>
 
@@ -37,14 +41,14 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
                             onClick={onClose}
                             className="border border-[#1a7a00] bg-transparent px-6 py-2 text-[14px] tracking-[1px] text-[#1a7a00] transition hover:bg-[#1a7a00] hover:text-[#030d02] focus:outline-none flex-1 max-w-[200px]"
                         >
-                            CANCELAR
+                            <EncryptedText text="CANCELAR" revealDelayMs={15} />
                         </button>
                         <button
                             type="button"
                             onClick={onConfirm}
-                            className="border border-[#39ff14] bg-transparent px-6 py-2 text-[14px] font-bold tracking-[2px] text-[#80ff60] [text-shadow:0_0_8px_#39ff14] transition hover:bg-[#39ff14] hover:text-[#030d02] hover:[text-shadow:none] focus:outline-none flex-1 max-w-[200px]"
+                            className="animate-glow-pulse border border-[#39ff14] bg-transparent px-6 py-2 text-[14px] font-bold tracking-[2px] text-[#80ff60] transition hover:bg-[#39ff14] hover:text-[#030d02] focus:outline-none flex-1 max-w-[200px]"
                         >
-                            ▶ ACEPTAR
+                            <EncryptedText text="▶ ACEPTAR" revealDelayMs={20} />
                         </button>
                     </div>
                 </div>
