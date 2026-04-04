@@ -1,0 +1,992 @@
+[
+  {
+    "title": "Bohemian Rhapsody",
+    "artist": "Queen",
+    "year": 1975
+  },
+  {
+    "title": "We Will Rock You",
+    "artist": "Queen",
+    "year": 1977
+  },
+  {
+    "title": "We Are the Champions",
+    "artist": "Queen",
+    "year": 1977
+  },
+  {
+    "title": "Another One Bites the Dust",
+    "artist": "Queen",
+    "year": 1980
+  },
+  {
+    "title": "Dont Stop Me Now",
+    "artist": "Queen",
+    "year": 1978
+  },
+  {
+    "title": "Stairway to Heaven",
+    "artist": "Led Zeppelin",
+    "year": 1971
+  },
+  {
+    "title": "Kashmir",
+    "artist": "Led Zeppelin",
+    "year": 1975
+  },
+  {
+    "title": "Black Dog",
+    "artist": "Led Zeppelin",
+    "year": 1971
+  },
+  {
+    "title": "Immigrant Song",
+    "artist": "Led Zeppelin",
+    "year": 1970
+  },
+  {
+    "title": "Whole Lotta Love",
+    "artist": "Led Zeppelin",
+    "year": 1969
+  },
+  {
+    "title": "Back in Black",
+    "artist": "AC/DC",
+    "year": 1980
+  },
+  {
+    "title": "Highway to Hell",
+    "artist": "AC/DC",
+    "year": 1979
+  },
+  {
+    "title": "Thunderstruck",
+    "artist": "AC/DC",
+    "year": 1990
+  },
+  {
+    "title": "Hells Bells",
+    "artist": "AC/DC",
+    "year": 1980
+  },
+  {
+    "title": "TNT",
+    "artist": "AC/DC",
+    "year": 1975
+  },
+  {
+    "title": "Hotel California",
+    "artist": "Eagles",
+    "year": 1977
+  },
+  {
+    "title": "Sweet Child O Mine",
+    "artist": "Guns N Roses",
+    "year": 1987
+  },
+  {
+    "title": "Welcome to the Jungle",
+    "artist": "Guns N Roses",
+    "year": 1987
+  },
+  {
+    "title": "November Rain",
+    "artist": "Guns N Roses",
+    "year": 1991
+  },
+  {
+    "title": "Paradise City",
+    "artist": "Guns N Roses",
+    "year": 1987
+  },
+  {
+    "title": "Patience",
+    "artist": "Guns N Roses",
+    "year": 1988
+  },
+  {
+    "title": "Smells Like Teen Spirit",
+    "artist": "Nirvana",
+    "year": 1991
+  },
+  {
+    "title": "Come as You Are",
+    "artist": "Nirvana",
+    "year": 1991
+  },
+  {
+    "title": "Lithium",
+    "artist": "Nirvana",
+    "year": 1991
+  },
+  {
+    "title": "In Bloom",
+    "artist": "Nirvana",
+    "year": 1991
+  },
+  {
+    "title": "Heart Shaped Box",
+    "artist": "Nirvana",
+    "year": 1993
+  },
+  {
+    "title": "Comfortably Numb",
+    "artist": "Pink Floyd",
+    "year": 1979
+  },
+  {
+    "title": "Wish You Were Here",
+    "artist": "Pink Floyd",
+    "year": 1975
+  },
+  {
+    "title": "Another Brick in the Wall",
+    "artist": "Pink Floyd",
+    "year": 1979
+  },
+  {
+    "title": "Time",
+    "artist": "Pink Floyd",
+    "year": 1973
+  },
+  {
+    "title": "Money",
+    "artist": "Pink Floyd",
+    "year": 1973
+  },
+  {
+    "title": "Enter Sandman",
+    "artist": "Metallica",
+    "year": 1991
+  },
+  {
+    "title": "Master of Puppets",
+    "artist": "Metallica",
+    "year": 1986
+  },
+  {
+    "title": "One",
+    "artist": "Metallica",
+    "year": 1988
+  },
+  {
+    "title": "Nothing Else Matters",
+    "artist": "Metallica",
+    "year": 1991
+  },
+  {
+    "title": "Fade to Black",
+    "artist": "Metallica",
+    "year": 1984
+  },
+  {
+    "title": "Paranoid",
+    "artist": "Black Sabbath",
+    "year": 1970
+  },
+  {
+    "title": "Iron Man",
+    "artist": "Black Sabbath",
+    "year": 1970
+  },
+  {
+    "title": "War Pigs",
+    "artist": "Black Sabbath",
+    "year": 1970
+  },
+  {
+    "title": "Heaven and Hell",
+    "artist": "Black Sabbath",
+    "year": 1980
+  },
+  {
+    "title": "Smoke on the Water",
+    "artist": "Deep Purple",
+    "year": 1972
+  },
+  {
+    "title": "Highway Star",
+    "artist": "Deep Purple",
+    "year": 1972
+  },
+  {
+    "title": "Child in Time",
+    "artist": "Deep Purple",
+    "year": 1970
+  },
+  {
+    "title": "Crazy Train",
+    "artist": "Ozzy Osbourne",
+    "year": 1980
+  },
+  {
+    "title": "No More Tears",
+    "artist": "Ozzy Osbourne",
+    "year": 1991
+  },
+  {
+    "title": "Mama Im Coming Home",
+    "artist": "Ozzy Osbourne",
+    "year": 1991
+  },
+  {
+    "title": "The Trooper",
+    "artist": "Iron Maiden",
+    "year": 1983
+  },
+  {
+    "title": "Run to the Hills",
+    "artist": "Iron Maiden",
+    "year": 1982
+  },
+  {
+    "title": "Fear of the Dark",
+    "artist": "Iron Maiden",
+    "year": 1992
+  },
+  {
+    "title": "Hallowed Be Thy Name",
+    "artist": "Iron Maiden",
+    "year": 1982
+  },
+  {
+    "title": "Breaking the Law",
+    "artist": "Judas Priest",
+    "year": 1980
+  },
+  {
+    "title": "Painkiller",
+    "artist": "Judas Priest",
+    "year": 1990
+  },
+  {
+    "title": "Electric Eye",
+    "artist": "Judas Priest",
+    "year": 1982
+  },
+  {
+    "title": "Baba ORiley",
+    "artist": "The Who",
+    "year": 1971
+  },
+  {
+    "title": "My Generation",
+    "artist": "The Who",
+    "year": 1965
+  },
+  {
+    "title": "Behind Blue Eyes",
+    "artist": "The Who",
+    "year": 1971
+  },
+  {
+    "title": "Light My Fire",
+    "artist": "The Doors",
+    "year": 1967
+  },
+  {
+    "title": "Riders on the Storm",
+    "artist": "The Doors",
+    "year": 1971
+  },
+  {
+    "title": "Break On Through",
+    "artist": "The Doors",
+    "year": 1967
+  },
+  {
+    "title": "Born to Run",
+    "artist": "Bruce Springsteen",
+    "year": 1975
+  },
+  {
+    "title": "Born in the USA",
+    "artist": "Bruce Springsteen",
+    "year": 1984
+  },
+  {
+    "title": "Dancing in the Dark",
+    "artist": "Bruce Springsteen",
+    "year": 1984
+  },
+  {
+    "title": "Livin on a Prayer",
+    "artist": "Bon Jovi",
+    "year": 1986
+  },
+  {
+    "title": "You Give Love a Bad Name",
+    "artist": "Bon Jovi",
+    "year": 1986
+  },
+  {
+    "title": "Wanted Dead or Alive",
+    "artist": "Bon Jovi",
+    "year": 1986
+  },
+  {
+    "title": "Its My Life",
+    "artist": "Bon Jovi",
+    "year": 2000
+  },
+  {
+    "title": "Jump",
+    "artist": "Van Halen",
+    "year": 1984
+  },
+  {
+    "title": "Panama",
+    "artist": "Van Halen",
+    "year": 1984
+  },
+  {
+    "title": "Hot for Teacher",
+    "artist": "Van Halen",
+    "year": 1984
+  },
+  {
+    "title": "Black Hole Sun",
+    "artist": "Soundgarden",
+    "year": 1994
+  },
+  {
+    "title": "Spoonman",
+    "artist": "Soundgarden",
+    "year": 1994
+  },
+  {
+    "title": "Alive",
+    "artist": "Pearl Jam",
+    "year": 1991
+  },
+  {
+    "title": "Even Flow",
+    "artist": "Pearl Jam",
+    "year": 1991
+  },
+  {
+    "title": "Jeremy",
+    "artist": "Pearl Jam",
+    "year": 1991
+  },
+  {
+    "title": "Plush",
+    "artist": "Stone Temple Pilots",
+    "year": 1992
+  },
+  {
+    "title": "Interstate Love Song",
+    "artist": "Stone Temple Pilots",
+    "year": 1994
+  },
+  {
+    "title": "Everlong",
+    "artist": "Foo Fighters",
+    "year": 1997
+  },
+  {
+    "title": "The Pretender",
+    "artist": "Foo Fighters",
+    "year": 2007
+  },
+  {
+    "title": "Learn to Fly",
+    "artist": "Foo Fighters",
+    "year": 1999
+  },
+  {
+    "title": "Under the Bridge",
+    "artist": "Red Hot Chili Peppers",
+    "year": 1991
+  },
+  {
+    "title": "Californication",
+    "artist": "Red Hot Chili Peppers",
+    "year": 1999
+  },
+  {
+    "title": "By the Way",
+    "artist": "Red Hot Chili Peppers",
+    "year": 2002
+  },
+  {
+    "title": "Killing in the Name",
+    "artist": "Rage Against the Machine",
+    "year": 1992
+  },
+  {
+    "title": "Bulls on Parade",
+    "artist": "Rage Against the Machine",
+    "year": 1996
+  },
+  {
+    "title": "Chop Suey",
+    "artist": "System of a Down",
+    "year": 2001
+  },
+  {
+    "title": "Toxicity",
+    "artist": "System of a Down",
+    "year": 2001
+  },
+  {
+    "title": "In the End",
+    "artist": "Linkin Park",
+    "year": 2000
+  },
+  {
+    "title": "Numb",
+    "artist": "Linkin Park",
+    "year": 2003
+  },
+  {
+    "title": "Crawling",
+    "artist": "Linkin Park",
+    "year": 2000
+  },
+  {
+    "title": "Karma Police",
+    "artist": "Radiohead",
+    "year": 1997
+  },
+  {
+    "title": "Paranoid Android",
+    "artist": "Radiohead",
+    "year": 1997
+  },
+  {
+    "title": "Creep",
+    "artist": "Radiohead",
+    "year": 1992
+  },
+  {
+    "title": "Uprising",
+    "artist": "Muse",
+    "year": 2009
+  },
+  {
+    "title": "Hysteria",
+    "artist": "Muse",
+    "year": 2003
+  },
+  {
+    "title": "Knights of Cydonia",
+    "artist": "Muse",
+    "year": 2006
+  },
+  {
+    "title": "American Idiot",
+    "artist": "Green Day",
+    "year": 2004
+  },
+  {
+    "title": "Boulevard of Broken Dreams",
+    "artist": "Green Day",
+    "year": 2004
+  },
+  {
+    "title": "Wake Me Up When September Ends",
+    "artist": "Green Day",
+    "year": 2005
+  },
+  {
+    "title": "Buddy Holly",
+    "artist": "Weezer",
+    "year": 1994
+  },
+  {
+    "title": "Island in the Sun",
+    "artist": "Weezer",
+    "year": 2001
+  },
+  {
+    "title": "All the Small Things",
+    "artist": "Blink 182",
+    "year": 1999
+  },
+  {
+    "title": "I Miss You",
+    "artist": "Blink 182",
+    "year": 2003
+  },
+  {
+    "title": "Duality",
+    "artist": "Slipknot",
+    "year": 2004
+  },
+  {
+    "title": "Psychosocial",
+    "artist": "Slipknot",
+    "year": 2008
+  },
+  {
+    "title": "Walk",
+    "artist": "Pantera",
+    "year": 1992
+  },
+  {
+    "title": "Cowboys from Hell",
+    "artist": "Pantera",
+    "year": 1990
+  },
+  {
+    "title": "Symphony of Destruction",
+    "artist": "Megadeth",
+    "year": 1992
+  },
+  {
+    "title": "Holy Wars",
+    "artist": "Megadeth",
+    "year": 1990
+  },
+  {
+    "title": "Raining Blood",
+    "artist": "Slayer",
+    "year": 1986
+  },
+  {
+    "title": "Angel of Death",
+    "artist": "Slayer",
+    "year": 1986
+  },
+  {
+    "title": "Closer",
+    "artist": "Nine Inch Nails",
+    "year": 1994
+  },
+  {
+    "title": "Hurt",
+    "artist": "Nine Inch Nails",
+    "year": 1994
+  },
+  {
+    "title": "Sober",
+    "artist": "Tool",
+    "year": 1993
+  },
+  {
+    "title": "Schism",
+    "artist": "Tool",
+    "year": 2001
+  },
+  {
+    "title": "Lateralus",
+    "artist": "Tool",
+    "year": 2001
+  },
+  {
+    "title": "Come Together",
+    "artist": "The Beatles",
+    "year": 1969
+  },
+  {
+    "title": "Hey Jude",
+    "artist": "The Beatles",
+    "year": 1968
+  },
+  {
+    "title": "Let It Be",
+    "artist": "The Beatles",
+    "year": 1970
+  },
+  {
+    "title": "Heroes",
+    "artist": "David Bowie",
+    "year": 1977
+  },
+  {
+    "title": "Rebel Rebel",
+    "artist": "David Bowie",
+    "year": 1974
+  },
+  {
+    "title": "Space Oddity",
+    "artist": "David Bowie",
+    "year": 1969
+  },
+  {
+    "title": "Rock and Roll All Nite",
+    "artist": "KISS",
+    "year": 1975
+  },
+  {
+    "title": "Detroit Rock City",
+    "artist": "KISS",
+    "year": 1976
+  },
+  {
+    "title": "Free Fallin",
+    "artist": "Tom Petty",
+    "year": 1989
+  },
+  {
+    "title": "Learning to Fly",
+    "artist": "Tom Petty",
+    "year": 1991
+  },
+  {
+    "title": "Smooth",
+    "artist": "Santana",
+    "year": 1999
+  },
+  {
+    "title": "Black Magic Woman",
+    "artist": "Santana",
+    "year": 1970
+  },
+  {
+    "title": "Sunshine of Your Love",
+    "artist": "Cream",
+    "year": 1967
+  },
+  {
+    "title": "White Room",
+    "artist": "Cream",
+    "year": 1968
+  },
+  {
+    "title": "Go Your Own Way",
+    "artist": "Fleetwood Mac",
+    "year": 1977
+  },
+  {
+    "title": "Dreams",
+    "artist": "Fleetwood Mac",
+    "year": 1977
+  },
+  {
+    "title": "Tom Sawyer",
+    "artist": "Rush",
+    "year": 1981
+  },
+  {
+    "title": "Limelight",
+    "artist": "Rush",
+    "year": 1981
+  },
+  {
+    "title": "More Than a Feeling",
+    "artist": "Boston",
+    "year": 1976
+  },
+  {
+    "title": "Sweet Home Alabama",
+    "artist": "Lynyrd Skynyrd",
+    "year": 1974
+  },
+  {
+    "title": "Free Bird",
+    "artist": "Lynyrd Skynyrd",
+    "year": 1973
+  },
+  {
+    "title": "Fortunate Son",
+    "artist": "Creedence Clearwater Revival",
+    "year": 1969
+  },
+  {
+    "title": "Have You Ever Seen the Rain",
+    "artist": "Creedence Clearwater Revival",
+    "year": 1970
+  },
+  {
+    "title": "The Final Countdown",
+    "artist": "Europe",
+    "year": 1986
+  },
+  {
+    "title": "Round and Round",
+    "artist": "Ratt",
+    "year": 1984
+  },
+  {
+    "title": "Holy Diver",
+    "artist": "Dio",
+    "year": 1983
+  },
+  {
+    "title": "Rainbow in the Dark",
+    "artist": "Dio",
+    "year": 1983
+  },
+  {
+    "title": "Rock You Like a Hurricane",
+    "artist": "Scorpions",
+    "year": 1984
+  },
+  {
+    "title": "Wind of Change",
+    "artist": "Scorpions",
+    "year": 1990
+  },
+  {
+    "title": "I Love Rock n Roll",
+    "artist": "Joan Jett",
+    "year": 1981
+  },
+  {
+    "title": "Seven Nation Army",
+    "artist": "The White Stripes",
+    "year": 2003
+  },
+  {
+    "title": "Lonely Boy",
+    "artist": "The Black Keys",
+    "year": 2011
+  },
+  {
+    "title": "No One Knows",
+    "artist": "Queens of the Stone Age",
+    "year": 2002
+  },
+  {
+    "title": "Last Nite",
+    "artist": "The Strokes",
+    "year": 2001
+  },
+  {
+    "title": "Do I Wanna Know",
+    "artist": "Arctic Monkeys",
+    "year": 2013
+  },
+  {
+    "title": "Wonderwall",
+    "artist": "Oasis",
+    "year": 1995
+  },
+  {
+    "title": "Dont Look Back in Anger",
+    "artist": "Oasis",
+    "year": 1996
+  },
+  {
+    "title": "Song 2",
+    "artist": "Blur",
+    "year": 1997
+  },
+  {
+    "title": "The Beautiful People",
+    "artist": "Marilyn Manson",
+    "year": 1996
+  },
+  {
+    "title": "Dragula",
+    "artist": "Rob Zombie",
+    "year": 1998
+  },
+  {
+    "title": "Down with the Sickness",
+    "artist": "Disturbed",
+    "year": 2000
+  },
+  {
+    "title": "The Diary of Jane",
+    "artist": "Breaking Benjamin",
+    "year": 2006
+  },
+  {
+    "title": "Last Resort",
+    "artist": "Papa Roach",
+    "year": 2000
+  },
+  {
+    "title": "Bring Me to Life",
+    "artist": "Evanescence",
+    "year": 2003
+  },
+  {
+    "title": "How You Remind Me",
+    "artist": "Nickelback",
+    "year": 2001
+  },
+  {
+    "title": "Kryptonite",
+    "artist": "3 Doors Down",
+    "year": 2000
+  },
+  {
+    "title": "Drive",
+    "artist": "Incubus",
+    "year": 2000
+  },
+  {
+    "title": "The Reason",
+    "artist": "Hoobastank",
+    "year": 2003
+  },
+  {
+    "title": "Freak on a Leash",
+    "artist": "Korn",
+    "year": 1998
+  },
+  {
+    "title": "Change In the House of Flies",
+    "artist": "Deftones",
+    "year": 2000
+  },
+  {
+    "title": "Judith",
+    "artist": "A Perfect Circle",
+    "year": 2000
+  },
+  {
+    "title": "Du Hast",
+    "artist": "Rammstein",
+    "year": 1997
+  },
+  {
+    "title": "London Calling",
+    "artist": "The Clash",
+    "year": 1979
+  },
+  {
+    "title": "Blitzkrieg Bop",
+    "artist": "Ramones",
+    "year": 1976
+  },
+  {
+    "title": "Losing My Religion",
+    "artist": "REM",
+    "year": 1991
+  },
+  {
+    "title": "Where Is My Mind",
+    "artist": "Pixies",
+    "year": 1988
+  },
+  {
+    "title": "Blue Monday",
+    "artist": "New Order",
+    "year": 1983
+  },
+  {
+    "title": "Psycho Killer",
+    "artist": "Talking Heads",
+    "year": 1977
+  },
+  {
+    "title": "Heart of Glass",
+    "artist": "Blondie",
+    "year": 1978
+  },
+  {
+    "title": "Because the Night",
+    "artist": "Patti Smith",
+    "year": 1978
+  },
+  {
+    "title": "Sweet Jane",
+    "artist": "The Velvet Underground",
+    "year": 1970
+  },
+  {
+    "title": "Lust for Life",
+    "artist": "Iggy Pop",
+    "year": 1977
+  },
+  {
+    "title": "Saturday Nights Alright for Fighting",
+    "artist": "Elton John",
+    "year": 1973
+  },
+  {
+    "title": "Sharp Dressed Man",
+    "artist": "ZZ Top",
+    "year": 1983
+  },
+  {
+    "title": "Dont Stop Believin",
+    "artist": "Journey",
+    "year": 1981
+  },
+  {
+    "title": "Sultans of Swing",
+    "artist": "Dire Straits",
+    "year": 1978
+  },
+  {
+    "title": "Every Breath You Take",
+    "artist": "The Police",
+    "year": 1983
+  },
+  {
+    "title": "Take On Me",
+    "artist": "A ha",
+    "year": 1985
+  },
+  {
+    "title": "Heat of the Moment",
+    "artist": "Asia",
+    "year": 1982
+  },
+  {
+    "title": "Roundabout",
+    "artist": "Yes",
+    "year": 1971
+  },
+  {
+    "title": "Money for Nothing",
+    "artist": "Dire Straits",
+    "year": 1985
+  },
+  {
+    "title": "Born to Be Wild",
+    "artist": "Steppenwolf",
+    "year": 1968
+  },
+  {
+    "title": "Mississippi Queen",
+    "artist": "Mountain",
+    "year": 1970
+  },
+  {
+    "title": "The Boys Are Back in Town",
+    "artist": "Thin Lizzy",
+    "year": 1976
+  },
+  {
+    "title": "Still Got the Blues",
+    "artist": "Gary Moore",
+    "year": 1990
+  },
+  {
+    "title": "Doctor Doctor",
+    "artist": "UFO",
+    "year": 1974
+  },
+  {
+    "title": "Rockin All Over the World",
+    "artist": "Status Quo",
+    "year": 1977
+  },
+  {
+    "title": "The Logical Song",
+    "artist": "Supertramp",
+    "year": 1979
+  },
+  {
+    "title": "Take On Me",
+    "artist": "A-Ha",
+    "year": 1985
+  },
+  {
+    "title": "Silent Lucidity",
+    "artist": "Queensryche",
+    "year": 1990
+  },
+  {
+    "title": "Alone Again",
+    "artist": "Dokken",
+    "year": 1985
+  },
+  {
+    "title": "Love of a Lifetime",
+    "artist": "Firehouse",
+    "year": 1991
+  },
+  {
+    "title": "Everything About You",
+    "artist": "Ugly Kid Joe",
+    "year": 1991
+  }
+]

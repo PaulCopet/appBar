@@ -1,0 +1,2 @@
+export const WHATSAPP_NUMBER = '573157507977';
+export const WHATSAPP_LABEL = '+57 315 750 7977';
