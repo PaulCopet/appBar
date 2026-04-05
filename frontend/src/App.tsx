@@ -56,8 +56,8 @@ function App() {
     };
 
     const removeListeners = () => {
-      window.removeEventListener('pointerdown', onFirstInteraction, true);
-      window.removeEventListener('touchstart', onFirstInteraction, true);
+      window.removeEventListener('click', onFirstInteraction, true);
+      window.removeEventListener('touchend', onFirstInteraction, true);
     };
 
     const onFirstInteraction = async () => {
@@ -67,9 +67,8 @@ function App() {
       }
     };
 
-    window.addEventListener('pointerdown', onFirstInteraction, true);
-    window.addEventListener('touchstart', onFirstInteraction, true);
-
+    window.addEventListener('click', onFirstInteraction, true);
+    window.addEventListener('touchend', onFirstInteraction, true);
     return () => {
       removeListeners();
     };
