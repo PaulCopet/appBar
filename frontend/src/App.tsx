@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   EchoMessage,
   ResultsCounter,
@@ -23,6 +24,56 @@ function App() {
     selectSong,
     confirmSelection,
   } = useRockTerminal();
+
+  useEffect(() => {
+    const root = document.documentElement as HTMLElement & {
+      webkitRequestFullscreen?: () => Promise<void> | void;
+    };
+    const documentWithWebkit = document as Document & { webkitFullscreenElement?: Element | null };
+
+    const requestFullscreen = async () => {
+      if (document.fullscreenElement || documentWithWebkit.webkitFullscreenElement) {
+        return true;
+      }
+
+      try {
+        if (root.requestFullscreen) {
+          await root.requestFullscreen();
+          return true;
+        }
+      } catch {
+        // Ignore blocked requests in browsers with stricter fullscreen policies.
+      }
+
+      try {
+        await root.webkitRequestFullscreen?.();
+        return true;
+      } catch {
+        // Ignore unsupported webkit fullscreen API.
+      }
+
+      return false;
+    };
+
+    const removeListeners = () => {
+      window.removeEventListener('pointerdown', onFirstInteraction, true);
+      window.removeEventListener('touchstart', onFirstInteraction, true);
+    };
+
+    const onFirstInteraction = async () => {
+      const enteredFullscreen = await requestFullscreen();
+      if (enteredFullscreen || document.fullscreenElement || documentWithWebkit.webkitFullscreenElement) {
+        removeListeners();
+      }
+    };
+
+    window.addEventListener('pointerdown', onFirstInteraction, true);
+    window.addEventListener('touchstart', onFirstInteraction, true);
+
+    return () => {
+      removeListeners();
+    };
+  }, []);
 
   return (
     <div className="relative h-[100dvh] overflow-hidden bg-[radial-gradient(circle_at_10%_20%,#0a1907_0%,#030d02_45%,#020702_100%)] text-[#39ff14]">
