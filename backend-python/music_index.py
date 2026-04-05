@@ -519,6 +519,7 @@ class MusicIndexService:
         sort: str = "title",
         include_inactive: bool = False,
         root_path: Optional[str] = None,
+        dedupe: bool = True,
     ) -> dict[str, object]:
         safe_offset = max(offset, 0)
         safe_limit = max(1, min(limit, MAX_LIMIT))
@@ -558,39 +559,107 @@ class MusicIndexService:
 
         where_sql = f"WHERE {' AND '.join(where_clauses)}" if where_clauses else ""
 
-        with self._connection() as connection:
-            total = int(
-                connection.execute(
-                    f"SELECT COUNT(*) AS total FROM songs {where_sql}",
-                    params,
-                ).fetchone()["total"]
-            )
+        if dedupe:
+            cte_sql = f"""
+                WITH ranked AS (
+                    SELECT
+                        id,
+                        root_path,
+                        path,
+                        relative_path,
+                        filename,
+                        extension,
+                        title,
+                        artist,
+                        album,
+                        year,
+                        size_bytes,
+                        mtime_ns,
+                        active,
+                        created_at,
+                        updated_at,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY LOWER(title), LOWER(artist), COALESCE(year, -1)
+                            ORDER BY updated_at DESC, id DESC
+                        ) AS rn
+                    FROM songs
+                    {where_sql}
+                )
+            """
 
-            rows = connection.execute(
-                f"""
-                SELECT
-                    id,
-                    root_path,
-                    path,
-                    relative_path,
-                    filename,
-                    extension,
-                    title,
-                    artist,
-                    album,
-                    year,
-                    size_bytes,
-                    mtime_ns,
-                    active,
-                    created_at,
-                    updated_at
-                FROM songs
-                {where_sql}
-                ORDER BY {order_by}
-                LIMIT ? OFFSET ?
-                """,
-                [*params, safe_limit, safe_offset],
-            ).fetchall()
+            with self._connection() as connection:
+                total = int(
+                    connection.execute(
+                        f"""
+                        {cte_sql}
+                        SELECT COUNT(*) AS total
+                        FROM ranked
+                        WHERE rn = 1
+                        """,
+                        params,
+                    ).fetchone()["total"]
+                )
+
+                rows = connection.execute(
+                    f"""
+                    {cte_sql}
+                    SELECT
+                        id,
+                        root_path,
+                        path,
+                        relative_path,
+                        filename,
+                        extension,
+                        title,
+                        artist,
+                        album,
+                        year,
+                        size_bytes,
+                        mtime_ns,
+                        active,
+                        created_at,
+                        updated_at
+                    FROM ranked
+                    WHERE rn = 1
+                    ORDER BY {order_by}
+                    LIMIT ? OFFSET ?
+                    """,
+                    [*params, safe_limit, safe_offset],
+                ).fetchall()
+        else:
+            with self._connection() as connection:
+                total = int(
+                    connection.execute(
+                        f"SELECT COUNT(*) AS total FROM songs {where_sql}",
+                        params,
+                    ).fetchone()["total"]
+                )
+
+                rows = connection.execute(
+                    f"""
+                    SELECT
+                        id,
+                        root_path,
+                        path,
+                        relative_path,
+                        filename,
+                        extension,
+                        title,
+                        artist,
+                        album,
+                        year,
+                        size_bytes,
+                        mtime_ns,
+                        active,
+                        created_at,
+                        updated_at
+                    FROM songs
+                    {where_sql}
+                    ORDER BY {order_by}
+                    LIMIT ? OFFSET ?
+                    """,
+                    [*params, safe_limit, safe_offset],
+                ).fetchall()
 
         songs = [self._song_row_to_dict(row) for row in rows]
         return {
@@ -602,6 +671,77 @@ class MusicIndexService:
             },
             "songs": songs,
         }
+
+def get_catalog_tree(self) -> dict[str, object]:
+        with self._connection() as connection:
+            rows = connection.execute(
+                "SELECT root_path, relative_path FROM songs WHERE active=1"
+            ).fetchall()
+        
+        from pathlib import Path
+        
+        # Build structure:
+        # tree = {
+        #    "count": X,
+        #    "children": {
+        #        "rock": { "count": Y, "children": {} }
+        #    }
+        # }
+        
+        roots = {}
+        for root_path, rel_path in rows:
+            if not root_path:
+                root_path = "default"
+            
+            if root_path not in roots:
+                roots[root_path] = {"count": 0, "children": {}}
+                
+            parts = Path(rel_path).parent.parts
+            
+            current = roots[root_path]
+            # It's a file in the root if parts is empty or '.' 
+            if not parts or parts == ('.',):
+                current["count"] += 1
+            else:
+                for part in parts:
+                    if part == '.': continue
+                    if part not in current["children"]:
+                        current["children"][part] = {"count": 0, "children": {}}
+                    current = current["children"][part]
+                current["count"] += 1
+                
+        return roots
+
+    def get_catalog_tree(self) -> dict[str, object]:
+        with self._connection() as connection:
+            rows = connection.execute(
+                "SELECT root_path, relative_path FROM songs WHERE active=1"
+            ).fetchall()
+        
+        from pathlib import Path
+        
+        roots = {}
+        for root_path, rel_path in rows:
+            if not root_path:
+                root_path = "default"
+            
+            if root_path not in roots:
+                roots[root_path] = {"count": 0, "children": {}}
+                
+            parts = Path(rel_path).parent.parts
+            
+            current = roots[root_path]
+            if not parts or parts == ('.',):
+                current["count"] += 1
+            else:
+                for part in parts:
+                    if part == '.': continue
+                    if part not in current["children"]:
+                        current["children"][part] = {"count": 0, "children": {}}
+                    current = current["children"][part]
+                current["count"] += 1
+                
+        return roots
 
     def list_changes(self, since: Optional[str], limit: int = DEFAULT_LIMIT) -> dict[str, object]:
         safe_limit = max(1, min(limit, MAX_CHANGES_LIMIT))

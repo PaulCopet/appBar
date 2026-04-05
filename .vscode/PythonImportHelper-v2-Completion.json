@@ -404,7 +404,7 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def get_music_catalog(\n    q: str = Query(default=\"\"),\n    offset: int = Query(default=0, ge=0),\n    limit: int = Query(default=100, ge=1, le=500),\n    sort: str = Query(default=\"title\"),\n    include_inactive: bool = Query(default=False),\n    root_path: str | None = Query(default=None),\n):\n    return music_index.list_catalog(\n        query=q,",
+        "peekOfCode": "def get_music_catalog(\n    q: str = Query(default=\"\"),\n    offset: int = Query(default=0, ge=0),\n    limit: int = Query(default=100, ge=1, le=500),\n    sort: str = Query(default=\"title\"),\n    include_inactive: bool = Query(default=False),\n    root_path: str | None = Query(default=None),\n    dedupe: bool = Query(default=True),\n):\n    return music_index.list_catalog(",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -413,7 +413,25 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def get_music_changes(\n    since: str | None = Query(default=None),\n    limit: int = Query(default=200, ge=1, le=5000),\n):\n    return music_index.list_changes(since=since, limit=limit)",
+        "peekOfCode": "def get_music_changes(\n    since: str | None = Query(default=None),\n    limit: int = Query(default=200, ge=1, le=5000),\n):\n    return music_index.list_changes(since=since, limit=limit)\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree():\n    return music_index.get_catalog_tree()\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree():",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_music_stats_tree",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def get_music_stats_tree():\n    return music_index.get_catalog_tree()\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree():\n    return music_index.get_catalog_tree()",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_music_stats_tree",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def get_music_stats_tree():\n    return music_index.get_catalog_tree()",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -576,6 +594,15 @@
         "importPath": "backend-python.music_index",
         "description": "backend-python.music_index",
         "peekOfCode": "def normalize_path(path: Path) -> str:\n    return str(path.expanduser().resolve())\nclass MusicIndexService:\n    def __init__(self, db_path: Path):\n        self._db_path = db_path\n        self._db_path.parent.mkdir(parents=True, exist_ok=True)\n        self._ensure_schema()\n    def _connect(self) -> sqlite3.Connection:\n        connection = sqlite3.connect(self._db_path, check_same_thread=False)\n        connection.row_factory = sqlite3.Row",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "get_catalog_tree",
+        "kind": 2,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "def get_catalog_tree(self) -> dict[str, object]:\n        with self._connection() as connection:\n            rows = connection.execute(\n                \"SELECT root_path, relative_path FROM songs WHERE active=1\"\n            ).fetchall()\n        from pathlib import Path\n        # Build structure:\n        # tree = {\n        #    \"count\": X,\n        #    \"children\": {",
         "detail": "backend-python.music_index",
         "documentation": {}
     },

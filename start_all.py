@@ -443,6 +443,8 @@ class DesktopAdminApp:
 
         self.library_entry: Any = None
         self.message_label: Any = None
+        self.dir_tree: Any = None
+        self._last_loaded_path = ''
 
         self._build_styles()
         self._build_ui()
@@ -471,127 +473,87 @@ class DesktopAdminApp:
         main = ttk.Frame(self.root, padding=14, style='Main.TFrame')
         main.pack(fill='both', expand=True)
 
-        title = ttk.Label(
-            main,
-            text='Python Music Admin (Desktop UI)',
-            style='Status.TLabel',
-            font=('Consolas', 14, 'bold'),
-        )
-        title.pack(anchor='w', pady=(0, 10))
+        title_frame = ttk.Frame(main, style='Main.TFrame')
+        title_frame.pack(fill='x', pady=(0, 10))
 
-        status_card = ttk.LabelFrame(main, text='Estado de servicios', style='Card.TLabelframe', padding=10)
+        title = ttk.Label(
+            title_frame,
+            text='🎵 Python Music Admin',
+            style='Status.TLabel',
+            font=('Consolas', 15, 'bold'),
+        )
+        title.pack(side='left')
+
+        ttk.Button(title_frame, text='▶ Abrir App (Frontend)', command=lambda: webbrowser.open(FRONT_BASE)).pack(side='right', padx=(0, 0))
+        ttk.Button(title_frame, text='🛑 Cerrar todo', command=self._on_close).pack(side='right', padx=(0, 10))
+
+        status_card = ttk.LabelFrame(main, text=' Estado de Servicios ', style='Card.TLabelframe', padding=10)
         status_card.pack(fill='x', pady=(0, 8))
 
         status_grid = ttk.Frame(status_card, style='Main.TFrame')
         status_grid.pack(fill='x')
 
-        self._status_label(status_grid, 'Python', self.python_status_var, 0)
-        self._status_label(status_grid, 'Node API', self.node_status_var, 1)
-        self._status_label(status_grid, 'Frontend', self.frontend_status_var, 2)
+        self._status_label(status_grid, 'Python API', self.python_status_var, 0)
+        self._status_label(status_grid, 'Node Proxy', self.node_status_var, 1)
+        self._status_label(status_grid, 'Frontend Vite', self.frontend_status_var, 2)
 
-        config_card = ttk.LabelFrame(main, text='Configuracion de biblioteca', style='Card.TLabelframe', padding=10)
+        config_card = ttk.LabelFrame(main, text=' Configuracion de Biblioteca ', style='Card.TLabelframe', padding=10)
         config_card.pack(fill='x', pady=(0, 8))
 
-        ttk.Label(config_card, text='Ruta de biblioteca:', style='Dim.TLabel').grid(row=0, column=0, sticky='w')
+        path_frame = ttk.Frame(config_card, style='Main.TFrame')
+        path_frame.pack(fill='x', pady=(0, 8))
 
-        self.library_entry = ttk.Entry(config_card, textvariable=self.library_path_var, width=88)
-        self.library_entry.grid(row=1, column=0, columnspan=3, sticky='ew', pady=(4, 8))
+        ttk.Label(path_frame, text='Ruta de musica:', style='Dim.TLabel', width=16).pack(side='left')
+        self.library_entry = ttk.Entry(path_frame, textvariable=self.library_path_var)
+        self.library_entry.pack(side='left', fill='x', expand=True, padx=(5, 5))
+        ttk.Button(path_frame, text='📂 Examinar...', command=self._on_browse_path).pack(side='left', padx=(0, 5))
+        ttk.Button(path_frame, text='💾 Guardar Ruta', command=self._on_save_config).pack(side='left')
 
-        browse_button = ttk.Button(config_card, text='Examinar...', command=self._on_browse_path)
-        browse_button.grid(row=1, column=3, sticky='e', padx=(8, 0), pady=(4, 8))
+        opts_frame = ttk.Frame(config_card, style='Main.TFrame')
+        opts_frame.pack(fill='x')
+        ttk.Checkbutton(opts_frame, text='Auto-escanear al iniciar', variable=self.auto_scan_var).pack(side='left', padx=(0, 15))
+        ttk.Checkbutton(opts_frame, text='Escaneo completo la proxima vez', variable=self.full_rescan_var).pack(side='left')
 
-        auto_scan_checkbox = ttk.Checkbutton(
-            config_card,
-            text='Auto escanear al iniciar Python',
-            variable=self.auto_scan_var,
-        )
-        auto_scan_checkbox.grid(row=2, column=0, sticky='w')
-
-        full_rescan_checkbox = ttk.Checkbutton(
-            config_card,
-            text='Full rescan para el proximo escaneo',
-            variable=self.full_rescan_var,
-        )
-        full_rescan_checkbox.grid(row=2, column=1, sticky='w')
-
-        config_card.columnconfigure(0, weight=1)
-        config_card.columnconfigure(1, weight=1)
-        config_card.columnconfigure(2, weight=1)
-
-        actions_card = ttk.LabelFrame(main, text='Acciones', style='Card.TLabelframe', padding=10)
-        actions_card.pack(fill='x', pady=(0, 8))
-
-        ttk.Button(actions_card, text='Guardar configuracion', command=self._on_save_config).grid(
-            row=0,
-            column=0,
-            padx=(0, 8),
-            pady=(0, 8),
-            sticky='w',
-        )
-        ttk.Button(actions_card, text='Iniciar escaneo', command=self._on_start_scan).grid(
-            row=0,
-            column=1,
-            padx=(0, 8),
-            pady=(0, 8),
-            sticky='w',
-        )
-        ttk.Button(actions_card, text='Refrescar estado', command=lambda: self._refresh_async('Actualizando estado...')).grid(
-            row=0,
-            column=2,
-            padx=(0, 8),
-            pady=(0, 8),
-            sticky='w',
-        )
-        ttk.Button(actions_card, text='Abrir frontend', command=lambda: webbrowser.open(FRONT_BASE)).grid(
-            row=0,
-            column=3,
-            pady=(0, 8),
-            sticky='w',
-        )
-        ttk.Button(actions_card, text='Abrir carpeta de logs', command=self._on_open_logs_folder).grid(
-            row=1,
-            column=0,
-            padx=(0, 8),
-            sticky='w',
-        )
-        ttk.Button(actions_card, text='Cerrar servicios y salir', command=self._on_close).grid(
-            row=1,
-            column=1,
-            padx=(0, 8),
-            sticky='w',
-        )
-
-        scan_card = ttk.LabelFrame(main, text='Estado de escaneo', style='Card.TLabelframe', padding=10)
+        scan_card = ttk.LabelFrame(main, text=' Motor de Escaneo ', style='Card.TLabelframe', padding=10)
         scan_card.pack(fill='x', pady=(0, 8))
 
-        ttk.Label(scan_card, text='Scan ID:', style='Dim.TLabel').grid(row=0, column=0, sticky='w')
-        ttk.Label(scan_card, textvariable=self.scan_id_var, style='Status.TLabel').grid(row=0, column=1, sticky='w')
+        scan_top = ttk.Frame(scan_card, style='Main.TFrame')
+        scan_top.pack(fill='x', pady=(0, 12))
 
-        ttk.Label(scan_card, text='Estado:', style='Dim.TLabel').grid(row=1, column=0, sticky='w')
-        ttk.Label(scan_card, textvariable=self.scan_status_var, style='Status.TLabel').grid(row=1, column=1, sticky='w')
+        ttk.Button(scan_top, text='🔄 Iniciar Escaneo', command=self._on_start_scan).pack(side='left', padx=(0, 10))
+        ttk.Label(scan_top, text='Directorio activo:', style='Dim.TLabel').pack(side='left', padx=(10, 5))
+        ttk.Label(scan_top, textvariable=self.detected_library_path_var, style='Status.TLabel').pack(side='left', fill='x', expand=True)
 
-        ttk.Label(scan_card, text='Estadisticas:', style='Dim.TLabel').grid(row=2, column=0, sticky='w')
-        ttk.Label(scan_card, textvariable=self.scan_stats_var, style='Status.TLabel').grid(row=2, column=1, sticky='w')
+        scan_grid = ttk.Frame(scan_card, style='Main.TFrame')
+        scan_grid.pack(fill='x')
+        self._status_label(scan_grid, 'Estado actual', self.scan_status_var, 0)
+        self._status_label(scan_grid, 'Estadisticas de progreso', self.scan_stats_var, 1)
+        self._status_label(scan_grid, 'Total indexado', self.catalog_total_var, 2)
 
-        ttk.Label(scan_card, text='Total catalogo:', style='Dim.TLabel').grid(row=3, column=0, sticky='w')
-        ttk.Label(scan_card, textvariable=self.catalog_total_var, style='Status.TLabel').grid(row=3, column=1, sticky='w')
+        tree_frame = ttk.Frame(scan_card, style='Main.TFrame')
+        tree_frame.pack(fill='both', expand=True, pady=(15, 0))
 
-        ttk.Label(scan_card, text='Ruta activa detectada:', style='Dim.TLabel').grid(row=4, column=0, sticky='w')
-        detected_path_label = ttk.Label(
-            scan_card,
-            textvariable=self.detected_library_path_var,
-            style='Status.TLabel',
-            justify='left',
-        )
-        detected_path_label.grid(row=4, column=1, sticky='w')
-        detected_path_label.configure(wraplength=700)
+        self.dir_tree = ttk.Treeview(tree_frame, columns=("count",), selectmode="browse", height=6)
+        self.dir_tree.heading("#0", text="Carpeta / Ruta", anchor='w')
+        self.dir_tree.heading("count", text="Canciones", anchor='w')
+        self.dir_tree.column("#0", width=400, stretch=True)
+        self.dir_tree.column("count", width=100, stretch=False)
+        self.dir_tree.pack(side='left', fill='both', expand=True)
 
-        logs_card = ttk.LabelFrame(main, text='Logs ocultos', style='Card.TLabelframe', padding=10)
-        logs_card.pack(fill='x', pady=(0, 8))
+        tree_scroll = ttk.Scrollbar(tree_frame, orient="vertical", command=self.dir_tree.yview)
+        tree_scroll.pack(side='right', fill='y')
+        self.dir_tree.configure(yscrollcommand=tree_scroll.set)
 
-        ttk.Label(logs_card, textvariable=self.logs_var, justify='left', style='Dim.TLabel').pack(anchor='w')
+        logs_card = ttk.LabelFrame(main, text=' Terminal / Opciones ', style='Card.TLabelframe', padding=10)
+        logs_card.pack(fill='both', expand=True, pady=(0, 8))
 
-        self.message_label = ttk.Label(main, textvariable=self.message_var, style='Message.TLabel')
+        logs_top = ttk.Frame(logs_card, style='Main.TFrame')
+        logs_top.pack(fill='x', pady=(0, 5))
+        ttk.Button(logs_top, text='📝 Abrir carpeta de logs', command=self._on_open_logs_folder).pack(side='left')
+
+        ttk.Label(logs_card, textvariable=self.logs_var, justify='left', style='Dim.TLabel').pack(anchor='w', pady=(5, 0))
+
+        self.message_label = ttk.Label(main, textvariable=self.message_var, style='Message.TLabel', font=('Segoe UI', 10, 'bold'))
         self.message_label.pack(fill='x', pady=(4, 0))
 
     def _status_label(self, parent: Any, title: str, variable: Any, column: int) -> None:
@@ -777,6 +739,10 @@ class DesktopAdminApp:
                 snapshot['catalog_total'] = 0
         else:
             snapshot['catalog_total'] = 0
+            
+        ok_tree, _, tree_data = _http_json('GET', f'{PYTHON_BASE}/api/music/stats/tree', timeout=2.5)
+        if ok_tree:
+            snapshot['stats_tree'] = tree_data.get('payload', tree_data)
 
         return snapshot
 
@@ -810,9 +776,11 @@ class DesktopAdminApp:
 
         config = snapshot.get('config', {})
         if isinstance(config, dict):
-            focused_widget = self.root.focus_get()
-            if focused_widget is not self.library_entry:
-                self.library_path_var.set(str(config.get('library_path', '')))
+            new_path = str(config.get('library_path', ''))
+            current_val = self.library_path_var.get()
+            if not current_val or current_val == self._last_loaded_path:
+                self.library_path_var.set(new_path)
+                self._last_loaded_path = new_path
             self.auto_scan_var.set(bool(config.get('auto_scan_on_start', True)))
 
         system = snapshot.get('system', {})
@@ -862,6 +830,30 @@ class DesktopAdminApp:
 
         self.logs_var.set(self.runtime.logs_text())
         self._set_message(f"Estado sincronizado ({time.strftime('%H:%M:%S')}).")
+        
+        # Actualizar arbol de ramificacion
+        stats_tree = snapshot.get('stats_tree')
+        if stats_tree and isinstance(stats_tree, dict) and self.dir_tree:
+            self._update_tree(stats_tree)
+
+    def _update_tree(self, tree_data: dict[str, Any]) -> None:
+        self.dir_tree.delete(*self.dir_tree.get_children())
+        
+        def _insert_nodes(parent_id: str, nodes: dict[str, Any]) -> None:
+            # Sort by directory name
+            for name, details in sorted(nodes.items()):
+                if not isinstance(details, dict): continue
+                count = details.get("count", 0)
+                children = details.get("children", {})
+                
+                # Show root if empty string, else name
+                display_name = name if name else "(Raiz)"
+                
+                node_id = self.dir_tree.insert(parent_id, "end", text=display_name, values=(count,), open=False)
+                if children:
+                    _insert_nodes(node_id, children)
+                    
+        _insert_nodes("", tree_data)
 
     def _on_close(self) -> None:
         if self._closing:
