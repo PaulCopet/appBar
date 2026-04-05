@@ -22,6 +22,7 @@ function App() {
     hasMoreResults,
     isLoading,
     loadError,
+    detectedLibraryPath,
     echoMessage,
     echoKey,
     selectSong,
@@ -29,6 +30,15 @@ function App() {
   } = useRockTerminal();
 
   useEffect(() => {
+    const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
+    const hasCoarsePointer = window.matchMedia('(any-pointer: coarse)').matches;
+    const isSmallViewport = window.matchMedia('(max-width: 1024px)').matches;
+    const shouldEnableAutoFullscreen = hasCoarsePointer && isSmallViewport && !hasFinePointer;
+
+    if (!shouldEnableAutoFullscreen) {
+      return;
+    }
+
     const root = document.documentElement as HTMLElement & {
       webkitRequestFullscreen?: () => Promise<void> | void;
     };
@@ -82,7 +92,7 @@ function App() {
       <TerminalOverlay />
 
       <main className="relative z-20 mx-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden px-2 py-2 sm:px-5 sm:py-4">
-        <TerminalHeader totalSongs={totalSongs} />
+        <TerminalHeader totalSongs={totalSongs} detectedLibraryPath={detectedLibraryPath} />
         <SearchPrompt query={query} onQueryChange={setQuery} />
 
         <div className="flex min-h-0 flex-1 flex-col">

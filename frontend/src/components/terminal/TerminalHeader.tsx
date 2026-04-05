@@ -1,10 +1,11 @@
 type TerminalHeaderProps = {
     totalSongs: number;
+    detectedLibraryPath: string;
 };
 
 const BORDER_LINE = '################################################################################';
 
-function TerminalHeader({ totalSongs }: TerminalHeaderProps) {
+function TerminalHeader({ totalSongs, detectedLibraryPath }: TerminalHeaderProps) {
     return (
         <header className="mb-2 border border-[#1a7a00] bg-[rgba(0,30,0,0.4)] p-2">
             <p className="mb-1 overflow-hidden whitespace-nowrap text-[11px] text-[#1a7a00]">{BORDER_LINE}</p>
@@ -18,6 +19,8 @@ function TerminalHeader({ totalSongs }: TerminalHeaderProps) {
             </div>
             <p className="text-[12px] leading-relaxed text-[#1a7a00]">
                 # HOST: rock-terminal.local # ARCH: x86_64 # SONGS: <span className="text-[#39ff14]">{totalSongs}</span>
+                <br />
+                # LIBRARY: <span className="break-all text-[#39ff14]">{detectedLibraryPath}</span>
                 <br />
                 # SYSTEM:{' '}
                 <span className="text-[#39ff14]">ACTIVE</span> <span className="animate-blink">_</span>

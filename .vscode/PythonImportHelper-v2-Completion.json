@@ -1,6 +1,157 @@
 [
     {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "threading",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "threading",
+        "description": "threading",
+        "detail": "threading",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "urllib.error",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "urllib.error",
+        "description": "urllib.error",
+        "detail": "urllib.error",
+        "documentation": {}
+    },
+    {
+        "label": "urllib.request",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "urllib.request",
+        "description": "urllib.request",
+        "detail": "urllib.request",
+        "documentation": {}
+    },
+    {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Callable",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Sequence",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Callable",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Query",
         "importPath": "fastapi",
         "description": "fastapi",
         "isExtraImport": true,
@@ -16,12 +167,164 @@
         "documentation": {}
     },
     {
-        "label": "json",
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_EXTENSIONS",
+        "importPath": "music_index",
+        "description": "music_index",
+        "isExtraImport": true,
+        "detail": "music_index",
+        "documentation": {}
+    },
+    {
+        "label": "MusicIndexService",
+        "importPath": "music_index",
+        "description": "music_index",
+        "isExtraImport": true,
+        "detail": "music_index",
+        "documentation": {}
+    },
+    {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "importlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "importlib",
+        "description": "importlib",
+        "detail": "importlib",
+        "documentation": {}
+    },
+    {
+        "label": "contextmanager",
+        "importPath": "contextlib",
+        "description": "contextlib",
+        "isExtraImport": true,
+        "detail": "contextlib",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "urllib.parse",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "urllib.parse",
+        "description": "urllib.parse",
+        "detail": "urllib.parse",
+        "documentation": {}
+    },
+    {
+        "label": "webbrowser",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "webbrowser",
+        "description": "webbrowser",
+        "detail": "webbrowser",
+        "documentation": {}
+    },
+    {
+        "label": "MusicScanRequest",
+        "kind": 6,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "class MusicScanRequest(BaseModel):\n    path: str = Field(default=\"\", description=\"Carpeta raiz a escanear\")\n    full_rescan: bool = Field(default=False, description=\"Si true, fuerza recargar metadata\")\n    recursive: bool = Field(default=True, description=\"Si true, incluye subcarpetas\")\n    extensions: list[str] | None = Field(\n        default=None,\n        description=\"Extensiones de audio permitidas; por defecto usa formato comun\",\n    )\nclass MusicConfigRequest(BaseModel):\n    path: str | None = Field(default=None, description=\"Ruta de biblioteca por defecto\")",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "MusicConfigRequest",
+        "kind": 6,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "class MusicConfigRequest(BaseModel):\n    path: str | None = Field(default=None, description=\"Ruta de biblioteca por defecto\")\n    auto_scan_on_start: bool | None = Field(\n        default=None,\n        description=\"Si true, inicia escaneo automaticamente al levantar Python\",\n    )\ndef _current_library_path() -> str:\n    configured = str(music_config.get(\"library_path\", \"\")).strip()\n    if configured:\n        return configured",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "on_startup",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def on_startup() -> None:\n    should_auto_scan = bool(music_config.get(\"auto_scan_on_start\", True))\n    if not should_auto_scan:\n        return\n    configured_path = _current_library_path().strip()\n    if not configured_path:\n        return\n    try:\n        started = _start_scan(\n            path=configured_path,",
+        "detail": "backend-python.main",
         "documentation": {}
     },
     {
@@ -29,7 +332,7 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def read_root():\n    return {\"message\": \"Welcome to the FastAPI Microservice\"}\n@app.get(\"/api/ai/status\")\ndef read_status():\n    return {\n        \"service\": \"FastAPI ML Service\",\n        \"status\": \"online\",\n        \"models_loaded\": 3\n    }",
+        "peekOfCode": "def read_root():\n    return {\n        \"message\": \"Python Music Service online\",\n        \"admin\": \"Desktop UI disponible con start_all.py\",\n    }\n@app.get(\"/api/ai/status\")\ndef read_status():\n    return {\n        \"service\": \"FastAPI ML Service\",\n        \"status\": \"online\",",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -38,7 +341,79 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def read_status():\n    return {\n        \"service\": \"FastAPI ML Service\",\n        \"status\": \"online\",\n        \"models_loaded\": 3\n    }",
+        "peekOfCode": "def read_status():\n    return {\n        \"service\": \"FastAPI ML Service\",\n        \"status\": \"online\",\n        \"models_loaded\": 3,\n        \"uptime_seconds\": int(time.time() - _app_started_at),\n    }\n@app.get(\"/api/system/status\")\ndef get_system_status():\n    latest_scan = music_index.get_scan_run(_last_scan_id) if _last_scan_id else music_index.get_latest_scan_run()",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_system_status",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def get_system_status():\n    latest_scan = music_index.get_scan_run(_last_scan_id) if _last_scan_id else music_index.get_latest_scan_run()\n    node = _probe_url(NODE_STATUS_URL)\n    frontend = _probe_url(FRONTEND_STATUS_URL)\n    return {\n        \"python\": {\n            \"online\": True,\n            \"uptime_seconds\": int(time.time() - _app_started_at),\n            \"active_scans\": len(_active_scans),\n        },",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_music_config",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def get_music_config():\n    return {\n        \"library_path\": _current_library_path(),\n        \"auto_scan_on_start\": bool(music_config.get(\"auto_scan_on_start\", True)),\n    }\n@app.put(\"/api/music/config\")\ndef update_music_config(request: MusicConfigRequest):\n    if request.path is not None:\n        normalized_path = request.path.strip()\n        if normalized_path:",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "update_music_config",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def update_music_config(request: MusicConfigRequest):\n    if request.path is not None:\n        normalized_path = request.path.strip()\n        if normalized_path:\n            root = Path(normalized_path).expanduser().resolve()\n            if not root.exists() or not root.is_dir():\n                raise HTTPException(\n                    status_code=400,\n                    detail=f\"La ruta no existe o no es carpeta: {root}\",\n                )",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "start_music_scan",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def start_music_scan(request: MusicScanRequest):\n    return _start_scan(\n        path=request.path,\n        full_rescan=request.full_rescan,\n        recursive=request.recursive,\n        extensions=request.extensions,\n    )\n@app.get(\"/api/music/scan/latest\")\ndef get_latest_scan_status():\n    run = music_index.get_scan_run(_last_scan_id) if _last_scan_id else music_index.get_latest_scan_run()",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_latest_scan_status",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def get_latest_scan_status():\n    run = music_index.get_scan_run(_last_scan_id) if _last_scan_id else music_index.get_latest_scan_run()\n    if run is None:\n        return {\n            \"status\": \"not_started\",\n            \"detail\": \"Todavia no se ha ejecutado ningun escaneo\",\n        }\n    return run\n@app.get(\"/api/music/scan/{scan_id}\")\ndef get_scan_status(scan_id: str):",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_scan_status",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def get_scan_status(scan_id: str):\n    run = music_index.get_scan_run(scan_id)\n    if run is None:\n        raise HTTPException(status_code=404, detail=\"No existe un escaneo con ese scan_id\")\n    return run\n@app.get(\"/api/music/catalog\")\ndef get_music_catalog(\n    q: str = Query(default=\"\"),\n    offset: int = Query(default=0, ge=0),\n    limit: int = Query(default=100, ge=1, le=500),",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_music_catalog",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def get_music_catalog(\n    q: str = Query(default=\"\"),\n    offset: int = Query(default=0, ge=0),\n    limit: int = Query(default=100, ge=1, le=500),\n    sort: str = Query(default=\"title\"),\n    include_inactive: bool = Query(default=False),\n    root_path: str | None = Query(default=None),\n):\n    return music_index.list_catalog(\n        query=q,",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_music_changes",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def get_music_changes(\n    since: str | None = Query(default=None),\n    limit: int = Query(default=200, ge=1, le=5000),\n):\n    return music_index.list_changes(since=since, limit=limit)",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -47,8 +422,206 @@
         "kind": 5,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "app = FastAPI(title=\"Python Microservice API\")\n# Configurar CORS para permitir que el frontend se comunique con este servicio\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"http://localhost:5173\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n@app.get(\"/\")",
+        "peekOfCode": "app = FastAPI(title=\"Python Microservice API\")\nSERVICE_ROOT = Path(__file__).resolve().parent\nDATA_DIR = SERVICE_ROOT / \"data\"\nDEFAULT_MUSIC_PATH = os.getenv(\"MUSIC_LIBRARY_PATH\", \"\").strip()\nMUSIC_INDEX_DB = Path(os.getenv(\"MUSIC_INDEX_DB\", str(DATA_DIR / \"music-index.db\")))\nMUSIC_CONFIG_PATH = Path(os.getenv(\"MUSIC_CONFIG_PATH\", str(DATA_DIR / \"music-config.json\")))\nFRONTEND_STATUS_URL = os.getenv(\"FRONTEND_STATUS_URL\", \"http://127.0.0.1:5173\")\nNODE_STATUS_URL = os.getenv(\"NODE_STATUS_URL\", \"http://127.0.0.1:3000/api/status\")\nAUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",",
         "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "SERVICE_ROOT",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "SERVICE_ROOT = Path(__file__).resolve().parent\nDATA_DIR = SERVICE_ROOT / \"data\"\nDEFAULT_MUSIC_PATH = os.getenv(\"MUSIC_LIBRARY_PATH\", \"\").strip()\nMUSIC_INDEX_DB = Path(os.getenv(\"MUSIC_INDEX_DB\", str(DATA_DIR / \"music-index.db\")))\nMUSIC_CONFIG_PATH = Path(os.getenv(\"MUSIC_CONFIG_PATH\", str(DATA_DIR / \"music-config.json\")))\nFRONTEND_STATUS_URL = os.getenv(\"FRONTEND_STATUS_URL\", \"http://127.0.0.1:5173\")\nNODE_STATUS_URL = os.getenv(\"NODE_STATUS_URL\", \"http://127.0.0.1:3000/api/status\")\nAUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",\n    \"true\",",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_DIR",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "DATA_DIR = SERVICE_ROOT / \"data\"\nDEFAULT_MUSIC_PATH = os.getenv(\"MUSIC_LIBRARY_PATH\", \"\").strip()\nMUSIC_INDEX_DB = Path(os.getenv(\"MUSIC_INDEX_DB\", str(DATA_DIR / \"music-index.db\")))\nMUSIC_CONFIG_PATH = Path(os.getenv(\"MUSIC_CONFIG_PATH\", str(DATA_DIR / \"music-config.json\")))\nFRONTEND_STATUS_URL = os.getenv(\"FRONTEND_STATUS_URL\", \"http://127.0.0.1:5173\")\nNODE_STATUS_URL = os.getenv(\"NODE_STATUS_URL\", \"http://127.0.0.1:3000/api/status\")\nAUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",\n    \"true\",\n    \"yes\",",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_MUSIC_PATH",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "DEFAULT_MUSIC_PATH = os.getenv(\"MUSIC_LIBRARY_PATH\", \"\").strip()\nMUSIC_INDEX_DB = Path(os.getenv(\"MUSIC_INDEX_DB\", str(DATA_DIR / \"music-index.db\")))\nMUSIC_CONFIG_PATH = Path(os.getenv(\"MUSIC_CONFIG_PATH\", str(DATA_DIR / \"music-config.json\")))\nFRONTEND_STATUS_URL = os.getenv(\"FRONTEND_STATUS_URL\", \"http://127.0.0.1:5173\")\nNODE_STATUS_URL = os.getenv(\"NODE_STATUS_URL\", \"http://127.0.0.1:3000/api/status\")\nAUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",\n    \"true\",\n    \"yes\",\n    \"on\",",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "MUSIC_INDEX_DB",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "MUSIC_INDEX_DB = Path(os.getenv(\"MUSIC_INDEX_DB\", str(DATA_DIR / \"music-index.db\")))\nMUSIC_CONFIG_PATH = Path(os.getenv(\"MUSIC_CONFIG_PATH\", str(DATA_DIR / \"music-config.json\")))\nFRONTEND_STATUS_URL = os.getenv(\"FRONTEND_STATUS_URL\", \"http://127.0.0.1:5173\")\nNODE_STATUS_URL = os.getenv(\"NODE_STATUS_URL\", \"http://127.0.0.1:3000/api/status\")\nAUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",\n    \"true\",\n    \"yes\",\n    \"on\",\n}",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "MUSIC_CONFIG_PATH",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "MUSIC_CONFIG_PATH = Path(os.getenv(\"MUSIC_CONFIG_PATH\", str(DATA_DIR / \"music-config.json\")))\nFRONTEND_STATUS_URL = os.getenv(\"FRONTEND_STATUS_URL\", \"http://127.0.0.1:5173\")\nNODE_STATUS_URL = os.getenv(\"NODE_STATUS_URL\", \"http://127.0.0.1:3000/api/status\")\nAUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",\n    \"true\",\n    \"yes\",\n    \"on\",\n}\nALLOWED_ORIGINS = [",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "FRONTEND_STATUS_URL",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "FRONTEND_STATUS_URL = os.getenv(\"FRONTEND_STATUS_URL\", \"http://127.0.0.1:5173\")\nNODE_STATUS_URL = os.getenv(\"NODE_STATUS_URL\", \"http://127.0.0.1:3000/api/status\")\nAUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",\n    \"true\",\n    \"yes\",\n    \"on\",\n}\nALLOWED_ORIGINS = [\n    origin.strip()",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "NODE_STATUS_URL",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "NODE_STATUS_URL = os.getenv(\"NODE_STATUS_URL\", \"http://127.0.0.1:3000/api/status\")\nAUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",\n    \"true\",\n    \"yes\",\n    \"on\",\n}\nALLOWED_ORIGINS = [\n    origin.strip()\n    for origin in os.getenv(\"ALLOWED_ORIGINS\", \"http://localhost:5173,http://localhost:3000\").split(\",\")",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "AUTO_SCAN_ENV_DEFAULT",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "AUTO_SCAN_ENV_DEFAULT = os.getenv(\"MUSIC_AUTO_SCAN_ON_START\", \"true\").strip().lower() in {\n    \"1\",\n    \"true\",\n    \"yes\",\n    \"on\",\n}\nALLOWED_ORIGINS = [\n    origin.strip()\n    for origin in os.getenv(\"ALLOWED_ORIGINS\", \"http://localhost:5173,http://localhost:3000\").split(\",\")\n    if origin.strip()",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_ORIGINS",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "ALLOWED_ORIGINS = [\n    origin.strip()\n    for origin in os.getenv(\"ALLOWED_ORIGINS\", \"http://localhost:5173,http://localhost:3000\").split(\",\")\n    if origin.strip()\n]\nmusic_index = MusicIndexService(MUSIC_INDEX_DB)\n_active_scans: set[str] = set()\n_scan_lock = threading.Lock()\n_last_scan_id: str | None = None\n_app_started_at = time.time()",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "music_index",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "music_index = MusicIndexService(MUSIC_INDEX_DB)\n_active_scans: set[str] = set()\n_scan_lock = threading.Lock()\n_last_scan_id: str | None = None\n_app_started_at = time.time()\ndef _default_config() -> dict[str, Any]:\n    return {\n        \"library_path\": DEFAULT_MUSIC_PATH,\n        \"auto_scan_on_start\": AUTO_SCAN_ENV_DEFAULT,\n    }",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "_scan_lock",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "_scan_lock = threading.Lock()\n_last_scan_id: str | None = None\n_app_started_at = time.time()\ndef _default_config() -> dict[str, Any]:\n    return {\n        \"library_path\": DEFAULT_MUSIC_PATH,\n        \"auto_scan_on_start\": AUTO_SCAN_ENV_DEFAULT,\n    }\ndef _load_music_config() -> dict[str, Any]:\n    config = _default_config()",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "_app_started_at",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "_app_started_at = time.time()\ndef _default_config() -> dict[str, Any]:\n    return {\n        \"library_path\": DEFAULT_MUSIC_PATH,\n        \"auto_scan_on_start\": AUTO_SCAN_ENV_DEFAULT,\n    }\ndef _load_music_config() -> dict[str, Any]:\n    config = _default_config()\n    if not MUSIC_CONFIG_PATH.exists():\n        return config",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "music_config",
+        "kind": 5,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "music_config = _load_music_config()\n# Configurar CORS para permitir que el frontend se comunique con este servicio\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=ALLOWED_ORIGINS,\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\nclass MusicScanRequest(BaseModel):",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "ScanProgress",
+        "kind": 6,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "class ScanProgress:\n    processed: int = 0\n    new: int = 0\n    modified: int = 0\n    deleted: int = 0\n    unchanged: int = 0\ndef utc_now_iso() -> str:\n    return datetime.now(timezone.utc).isoformat()\ndef normalize_path(path: Path) -> str:\n    return str(path.expanduser().resolve())",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "MusicIndexService",
+        "kind": 6,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "class MusicIndexService:\n    def __init__(self, db_path: Path):\n        self._db_path = db_path\n        self._db_path.parent.mkdir(parents=True, exist_ok=True)\n        self._ensure_schema()\n    def _connect(self) -> sqlite3.Connection:\n        connection = sqlite3.connect(self._db_path, check_same_thread=False)\n        connection.row_factory = sqlite3.Row\n        connection.execute(\"PRAGMA journal_mode = WAL;\")\n        connection.execute(\"PRAGMA synchronous = NORMAL;\")",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "utc_now_iso",
+        "kind": 2,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "def utc_now_iso() -> str:\n    return datetime.now(timezone.utc).isoformat()\ndef normalize_path(path: Path) -> str:\n    return str(path.expanduser().resolve())\nclass MusicIndexService:\n    def __init__(self, db_path: Path):\n        self._db_path = db_path\n        self._db_path.parent.mkdir(parents=True, exist_ok=True)\n        self._ensure_schema()\n    def _connect(self) -> sqlite3.Connection:",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "normalize_path",
+        "kind": 2,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "def normalize_path(path: Path) -> str:\n    return str(path.expanduser().resolve())\nclass MusicIndexService:\n    def __init__(self, db_path: Path):\n        self._db_path = db_path\n        self._db_path.parent.mkdir(parents=True, exist_ok=True)\n        self._ensure_schema()\n    def _connect(self) -> sqlite3.Connection:\n        connection = sqlite3.connect(self._db_path, check_same_thread=False)\n        connection.row_factory = sqlite3.Row",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "MutagenFile",
+        "kind": 5,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "MutagenFile = _load_mutagen_file()\nDEFAULT_EXTENSIONS = {\".mp3\", \".flac\", \".m4a\", \".mp4\", \".aac\", \".wav\", \".ogg\", \".wma\"}\nDEFAULT_LIMIT = 100\nMAX_LIMIT = 500\nMAX_CHANGES_LIMIT = 5_000\n@dataclass\nclass ScanProgress:\n    processed: int = 0\n    new: int = 0\n    modified: int = 0",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_EXTENSIONS",
+        "kind": 5,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "DEFAULT_EXTENSIONS = {\".mp3\", \".flac\", \".m4a\", \".mp4\", \".aac\", \".wav\", \".ogg\", \".wma\"}\nDEFAULT_LIMIT = 100\nMAX_LIMIT = 500\nMAX_CHANGES_LIMIT = 5_000\n@dataclass\nclass ScanProgress:\n    processed: int = 0\n    new: int = 0\n    modified: int = 0\n    deleted: int = 0",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_LIMIT",
+        "kind": 5,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "DEFAULT_LIMIT = 100\nMAX_LIMIT = 500\nMAX_CHANGES_LIMIT = 5_000\n@dataclass\nclass ScanProgress:\n    processed: int = 0\n    new: int = 0\n    modified: int = 0\n    deleted: int = 0\n    unchanged: int = 0",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "MAX_LIMIT",
+        "kind": 5,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "MAX_LIMIT = 500\nMAX_CHANGES_LIMIT = 5_000\n@dataclass\nclass ScanProgress:\n    processed: int = 0\n    new: int = 0\n    modified: int = 0\n    deleted: int = 0\n    unchanged: int = 0\ndef utc_now_iso() -> str:",
+        "detail": "backend-python.music_index",
+        "documentation": {}
+    },
+    {
+        "label": "MAX_CHANGES_LIMIT",
+        "kind": 5,
+        "importPath": "backend-python.music_index",
+        "description": "backend-python.music_index",
+        "peekOfCode": "MAX_CHANGES_LIMIT = 5_000\n@dataclass\nclass ScanProgress:\n    processed: int = 0\n    new: int = 0\n    modified: int = 0\n    deleted: int = 0\n    unchanged: int = 0\ndef utc_now_iso() -> str:\n    return datetime.now(timezone.utc).isoformat()",
+        "detail": "backend-python.music_index",
         "documentation": {}
     },
     {
@@ -85,6 +658,114 @@
         "description": "frontend.node_modules.flatted.python.flatted",
         "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
         "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "ServiceRuntime",
+        "kind": 6,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "class ServiceRuntime:\n    def __init__(self) -> None:\n        self.services: list[ServiceDescriptor] = []\n    def start(self) -> tuple[bool, str]:\n        self.stop()\n        _free_managed_ports()\n        python_env = {\n            'MUSIC_AUTO_SCAN_ON_START': 'true',\n        }\n        try:",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "DesktopAdminApp",
+        "kind": 6,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "class DesktopAdminApp:\n    def __init__(self, runtime: ServiceRuntime) -> None:\n        if tk is None or ttk is None or filedialog is None or messagebox is None:\n            raise RuntimeError('Tkinter no esta disponible en este entorno.')\n        self.runtime = runtime\n        self.root = tk.Tk()\n        self.root.title('Python Music Admin')\n        self.root.geometry('940x670')\n        self.root.minsize(860, 620)\n        self.root.configure(bg='#07130a')",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "def main() -> int:\n    if tk is None or ttk is None or filedialog is None or messagebox is None:\n        print('Tkinter no esta disponible. Instala Tk para usar la interfaz desktop.')\n        return 1\n    runtime = ServiceRuntime()\n    ok, detail = runtime.start()\n    if not ok:\n        runtime.stop()\n        print(f'[ERROR] {detail}')\n        print('Revisa los logs en .runtime/logs para mas detalle.')",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_DIR",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "ROOT_DIR = Path(__file__).resolve().parent\nLOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "LOG_DIR",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "LOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "CREATE_NO_WINDOW",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "CREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "MANAGED_PORTS",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "MANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "PYTHON_BASE",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "PYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "NODE_BASE",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "NODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "FRONT_BASE",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "FRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':\n        return f'{PYTHON_BASE}/api/ai/status'",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "ServiceDescriptor",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "ServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':\n        return f'{PYTHON_BASE}/api/ai/status'\n    if name == 'node':",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "ApiResult",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "ApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':\n        return f'{PYTHON_BASE}/api/ai/status'\n    if name == 'node':\n        return f'{NODE_BASE}/api/status'",
+        "detail": "start_all",
         "documentation": {}
     }
 ]

@@ -27,6 +27,7 @@ LOG_DIR = ROOT_DIR / '.runtime' / 'logs'
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 CREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+MANAGED_PORTS = (8000, 3000, 5173, 5174)
 
 PYTHON_BASE = 'http://127.0.0.1:8000'
 NODE_BASE = 'http://127.0.0.1:3000'
@@ -43,6 +44,127 @@ def _cmd(name: str) -> str:
     return name
 
 
+def _service_health_url(name: str) -> str | None:
+    if name == 'python':
+        return f'{PYTHON_BASE}/api/ai/status'
+    if name == 'node':
+        return f'{NODE_BASE}/api/status'
+    if name == 'frontend':
+        return FRONT_BASE
+    return None
+
+
+def _is_endpoint_online(url: str, timeout: float = 1.2) -> bool:
+    ok, _, _ = _http_json('GET', url, timeout=timeout)
+    return ok
+
+
+def _tool_bin(project_dir: Path, tool_name: str) -> str | None:
+    executable = f'{tool_name}.cmd' if os.name == 'nt' else tool_name
+    candidate = project_dir / 'node_modules' / '.bin' / executable
+    if candidate.exists():
+        return str(candidate)
+    return None
+
+
+def _find_listening_pids(port: int) -> set[int]:
+    if os.name == 'nt':
+        try:
+            output = subprocess.check_output(
+                ['netstat', '-ano'],
+                text=True,
+                encoding='utf-8',
+                errors='ignore',
+            )
+        except Exception:
+            return set()
+
+        pids: set[int] = set()
+        for line in output.splitlines():
+            parts = line.split()
+            if len(parts) < 4:
+                continue
+
+            proto = parts[0].upper()
+            local_addr = parts[1]
+            pid_text = parts[-1]
+            state = parts[3].upper() if proto.startswith('TCP') and len(parts) >= 5 else ''
+
+            if not pid_text.isdigit():
+                continue
+
+            if proto.startswith('TCP'):
+                if state != 'LISTENING':
+                    continue
+            elif not proto.startswith('UDP'):
+                continue
+
+            _, sep, raw_port = local_addr.rpartition(':')
+            if not sep:
+                continue
+
+            try:
+                local_port = int(raw_port)
+            except ValueError:
+                continue
+
+            if local_port != port:
+                continue
+
+            pid = int(pid_text)
+            if pid != os.getpid():
+                pids.add(pid)
+
+        return pids
+
+    try:
+        output = subprocess.check_output(
+            ['lsof', '-ti', f'tcp:{port}'],
+            text=True,
+            encoding='utf-8',
+            errors='ignore',
+        )
+    except Exception:
+        return set()
+
+    pids = set()
+    for line in output.splitlines():
+        value = line.strip()
+        if value.isdigit():
+            pid = int(value)
+            if pid != os.getpid():
+                pids.add(pid)
+    return pids
+
+
+def _kill_pid_tree(pid: int) -> None:
+    if pid <= 0 or pid == os.getpid():
+        return
+
+    if os.name == 'nt':
+        subprocess.run(
+            ['taskkill', '/PID', str(pid), '/T', '/F'],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        return
+
+    try:
+        os.kill(pid, 15)
+    except Exception:
+        pass
+
+
+def _free_managed_ports(ports: tuple[int, ...] = MANAGED_PORTS) -> None:
+    pids: set[int] = set()
+    for port in ports:
+        pids.update(_find_listening_pids(port))
+
+    for pid in sorted(pids):
+        _kill_pid_tree(pid)
+
+
 def _open_log(name: str):
     log_path = LOG_DIR / f'{name}.log'
     handle = open(log_path, 'a', encoding='utf-8')
@@ -51,11 +173,16 @@ def _open_log(name: str):
     return handle, log_path
 
 
-def _start_service(name: str, command: list[str], env: dict[str, str] | None = None) -> ServiceDescriptor:
+def _start_service(
+    name: str,
+    command: list[str],
+    env: dict[str, str] | None = None,
+    cwd: Path | None = None,
+) -> ServiceDescriptor:
     log_handle, log_path = _open_log(name)
     process = subprocess.Popen(
         command,
-        cwd=ROOT_DIR,
+        cwd=str(cwd or ROOT_DIR),
         stdout=log_handle,
         stderr=subprocess.STDOUT,
         env={**os.environ, **(env or {})},
@@ -74,12 +201,24 @@ def _stop_service(service: ServiceDescriptor) -> None:
     process: subprocess.Popen[Any] = service['process']
 
     if process.poll() is None:
-        process.terminate()
-        try:
-            process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            process.wait(timeout=5)
+        if os.name == 'nt':
+            subprocess.run(
+                ['taskkill', '/PID', str(process.pid), '/T', '/F'],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            )
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                pass
+        else:
+            process.terminate()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait(timeout=5)
 
     log_handle = service.get('log_handle')
     if log_handle and not log_handle.closed:
@@ -162,11 +301,28 @@ class ServiceRuntime:
         self.services: list[ServiceDescriptor] = []
 
     def start(self) -> tuple[bool, str]:
+        self.stop()
+        _free_managed_ports()
+
         python_env = {
             'MUSIC_AUTO_SCAN_ON_START': 'true',
         }
 
         try:
+            python_dir = ROOT_DIR / 'backend-python'
+            node_dir = ROOT_DIR / 'backend-node'
+            front_dir = ROOT_DIR / 'frontend'
+
+            node_runner = _tool_bin(node_dir, 'tsx')
+            front_runner = _tool_bin(front_dir, 'vite')
+
+            node_command = [node_runner, 'index.ts'] if node_runner else [_cmd('npm'), 'run', 'dev']
+            front_command = (
+                [front_runner, '--host', '127.0.0.1', '--port', '5173', '--strictPort']
+                if front_runner
+                else [_cmd('npm'), 'run', 'dev', '--', '--host', '127.0.0.1', '--port', '5173', '--strictPort']
+            )
+
             self.services.append(
                 _start_service(
                     'python',
@@ -175,14 +331,13 @@ class ServiceRuntime:
                         '-m',
                         'uvicorn',
                         'main:app',
-                        '--app-dir',
-                        str(ROOT_DIR / 'backend-python'),
                         '--host',
                         '127.0.0.1',
                         '--port',
                         '8000',
                     ],
                     env=python_env,
+                    cwd=python_dir,
                 )
             )
 
@@ -191,7 +346,8 @@ class ServiceRuntime:
             self.services.append(
                 _start_service(
                     'node',
-                    [_cmd('npm'), '--prefix', 'backend-node', 'run', 'dev'],
+                    node_command,
+                    cwd=node_dir,
                 )
             )
 
@@ -200,18 +356,8 @@ class ServiceRuntime:
             self.services.append(
                 _start_service(
                     'frontend',
-                    [
-                        _cmd('npm'),
-                        '--prefix',
-                        'frontend',
-                        'run',
-                        'dev',
-                        '--',
-                        '--host',
-                        '127.0.0.1',
-                        '--port',
-                        '5173',
-                    ],
+                    front_command,
+                    cwd=front_dir,
                 )
             )
 
@@ -219,8 +365,14 @@ class ServiceRuntime:
             if not python_ready:
                 return False, 'Python API no inicio correctamente. Revisa los logs ocultos.'
 
-            _wait_for_endpoint(f'{NODE_BASE}/api/status', timeout_seconds=15)
-            _wait_for_endpoint(FRONT_BASE, timeout_seconds=15)
+            node_ready = _wait_for_endpoint(f'{NODE_BASE}/api/status', timeout_seconds=15)
+            if not node_ready:
+                return False, 'Node API no inicio correctamente. Revisa los logs ocultos.'
+
+            front_ready = _wait_for_endpoint(FRONT_BASE, timeout_seconds=15)
+            if not front_ready:
+                return False, 'Frontend no inicio correctamente en el puerto 5173. Revisa los logs ocultos.'
+
             return True, ''
         except Exception as exc:
             return False, str(exc)
@@ -233,9 +385,21 @@ class ServiceRuntime:
                 # Evita que un fallo en un proceso impida apagar el resto.
                 pass
         self.services.clear()
+        _free_managed_ports()
 
     def stopped_services(self) -> list[ServiceDescriptor]:
-        return [service for service in self.services if service['process'].poll() is not None]
+        stopped: list[ServiceDescriptor] = []
+        for service in self.services:
+            if service['process'].poll() is None:
+                continue
+
+            health_url = _service_health_url(service['name'])
+            if health_url and _is_endpoint_online(health_url):
+                continue
+
+            stopped.append(service)
+
+        return stopped
 
     def logs_text(self) -> str:
         lines = []
@@ -272,6 +436,7 @@ class DesktopAdminApp:
         self.scan_status_var = tk.StringVar(value='not_started')
         self.scan_stats_var = tk.StringVar(value='procesados=0 | new=0 | mod=0 | del=0')
         self.catalog_total_var = tk.StringVar(value='0')
+        self.detected_library_path_var = tk.StringVar(value='(sin ruta configurada)')
 
         self.message_var = tk.StringVar(value='Servicios iniciados. Cargando estado...')
         self.logs_var = tk.StringVar(value=self.runtime.logs_text())
@@ -411,6 +576,16 @@ class DesktopAdminApp:
         ttk.Label(scan_card, text='Total catalogo:', style='Dim.TLabel').grid(row=3, column=0, sticky='w')
         ttk.Label(scan_card, textvariable=self.catalog_total_var, style='Status.TLabel').grid(row=3, column=1, sticky='w')
 
+        ttk.Label(scan_card, text='Ruta activa detectada:', style='Dim.TLabel').grid(row=4, column=0, sticky='w')
+        detected_path_label = ttk.Label(
+            scan_card,
+            textvariable=self.detected_library_path_var,
+            style='Status.TLabel',
+            justify='left',
+        )
+        detected_path_label.grid(row=4, column=1, sticky='w')
+        detected_path_label.configure(wraplength=700)
+
         logs_card = ttk.LabelFrame(main, text='Logs ocultos', style='Card.TLabelframe', padding=10)
         logs_card.pack(fill='x', pady=(0, 8))
 
@@ -432,6 +607,21 @@ class DesktopAdminApp:
             foreground = '#ff7373' if is_error else '#88d592'
             self.message_label.configure(foreground=foreground)
 
+    def _safe_after(self, delay_ms: int, callback: Callable[[], None]) -> bool:
+        if self._closing:
+            return False
+
+        def guarded_callback() -> None:
+            if self._closing:
+                return
+            callback()
+
+        try:
+            self.root.after(delay_ms, guarded_callback)
+            return True
+        except Exception:
+            return False
+
     def _schedule_periodic_checks(self) -> None:
         self._monitor_services()
         self._periodic_refresh()
@@ -441,7 +631,7 @@ class DesktopAdminApp:
             return
 
         self._refresh_async()
-        self.root.after(4500, self._periodic_refresh)
+        self._safe_after(4500, self._periodic_refresh)
 
     def _monitor_services(self) -> None:
         if self._closing:
@@ -462,7 +652,7 @@ class DesktopAdminApp:
         else:
             self._service_error_reported = False
 
-        self.root.after(1800, self._monitor_services)
+        self._safe_after(1800, self._monitor_services)
 
     def _on_browse_path(self) -> None:
         initial_dir = self.library_path_var.get().strip() or str(Path.home())
@@ -508,7 +698,7 @@ class DesktopAdminApp:
 
                 self._refresh_async('Estado actualizado.')
 
-            self.root.after(0, after)
+            self._safe_after(0, after)
 
         threading.Thread(target=job, daemon=True).start()
 
@@ -561,10 +751,20 @@ class DesktopAdminApp:
 
         snapshot['system'] = system
 
+        configured_path = str(config.get('library_path', '')).strip()
+        active_library_path = configured_path
+
+        latest_scan = system.get('latest_scan')
+        if isinstance(latest_scan, dict):
+            scan_root_path = str(latest_scan.get('root_path', '')).strip()
+            if scan_root_path:
+                active_library_path = scan_root_path
+
+        snapshot['active_library_path'] = active_library_path
+
         query_data = {'offset': 0, 'limit': 1}
-        library_path = str(config.get('library_path', '')).strip()
-        if library_path:
-            query_data['root_path'] = library_path
+        if active_library_path:
+            query_data['root_path'] = active_library_path
 
         query = urllib.parse.urlencode(query_data)
         ok_catalog, _, catalog = _http_json('GET', f'{PYTHON_BASE}/api/music/catalog?{query}', timeout=2.5)
@@ -598,7 +798,7 @@ class DesktopAdminApp:
                     return
                 self._apply_snapshot(snapshot)
 
-            self.root.after(0, after)
+            self._safe_after(0, after)
 
         threading.Thread(target=job, daemon=True).start()
 
@@ -656,6 +856,9 @@ class DesktopAdminApp:
 
         total = snapshot.get('catalog_total', 0)
         self.catalog_total_var.set(str(total))
+
+        active_library_path = str(snapshot.get('active_library_path', '')).strip()
+        self.detected_library_path_var.set(active_library_path or '(sin ruta configurada)')
 
         self.logs_var.set(self.runtime.logs_text())
         self._set_message(f"Estado sincronizado ({time.strftime('%H:%M:%S')}).")

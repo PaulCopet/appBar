@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { fetchMusicCatalog } from '../services/musicCatalog';
+import { fetchDetectedLibraryPath, fetchMusicCatalog } from '../services/musicCatalog';
 import type { IndexedSong, Song } from '../types/terminal';
 
 const SEARCH_DEBOUNCE_MS = 220;
@@ -13,6 +13,7 @@ export const useRockTerminal = () => {
     const [hasMoreResults, setHasMoreResults] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [loadError, setLoadError] = useState<string | null>(null);
+    const [detectedLibraryPath, setDetectedLibraryPath] = useState('(sin ruta configurada)');
     const [refreshTick, setRefreshTick] = useState(0);
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [echoMessage, setEchoMessage] = useState('');
@@ -27,6 +28,23 @@ export const useRockTerminal = () => {
             window.clearInterval(intervalId);
         };
     }, []);
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        void (async () => {
+            try {
+                const activePath = await fetchDetectedLibraryPath(controller.signal);
+                setDetectedLibraryPath(activePath || '(sin ruta configurada)');
+            } catch {
+                setDetectedLibraryPath('(sin ruta configurada)');
+            }
+        })();
+
+        return () => {
+            controller.abort();
+        };
+    }, [refreshTick]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -106,6 +124,7 @@ export const useRockTerminal = () => {
         hasMoreResults,
         isLoading,
         loadError,
+        detectedLibraryPath,
         echoMessage,
         echoKey,
         selectSong,

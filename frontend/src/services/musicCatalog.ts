@@ -28,6 +28,15 @@ type FetchMusicCatalogResult = {
     hasMore: boolean;
 };
 
+type MusicConfigResponse = {
+    library_path?: unknown;
+};
+
+type LatestScanResponse = {
+    status?: unknown;
+    root_path?: unknown;
+};
+
 const API_BASE = (() => {
     const configured = import.meta.env.VITE_NODE_API_URL;
     if (typeof configured !== 'string') {
@@ -95,6 +104,44 @@ const parseTotal = (response: CatalogApiResponse, fallback: number) => {
 
 const parseHasMore = (response: CatalogApiResponse) => {
     return Boolean(response.pagination?.has_more);
+};
+
+const buildApiUrl = (path: string) => {
+    const pathname = API_BASE ? `${API_BASE}${path}` : path;
+    return new URL(pathname, window.location.origin);
+};
+
+const fetchApiJson = async <T>(path: string, signal?: AbortSignal): Promise<T> => {
+    const response = await fetch(buildApiUrl(path), {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+        },
+        signal,
+    });
+
+    if (!response.ok) {
+        throw new Error(`Request failed (${response.status})`);
+    }
+
+    return (await response.json()) as T;
+};
+
+export const fetchDetectedLibraryPath = async (signal?: AbortSignal): Promise<string> => {
+    const [config, latestScan] = await Promise.all([
+        fetchApiJson<MusicConfigResponse>('/api/music/config', signal),
+        fetchApiJson<LatestScanResponse>('/api/music/scan/latest', signal),
+    ]);
+
+    const configuredPath = toSafeText(config.library_path, '');
+    const latestScanStatus = toSafeText(latestScan.status, '');
+    const latestScanRoot = toSafeText(latestScan.root_path, '');
+
+    if (latestScanStatus && latestScanStatus !== 'not_started' && latestScanRoot) {
+        return latestScanRoot;
+    }
+
+    return configuredPath || '(sin ruta configurada)';
 };
 
 export const fetchMusicCatalog = async (
