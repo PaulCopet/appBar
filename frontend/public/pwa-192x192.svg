@@ -1,96 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
-    <!-- Fondo oscuro de la terminal -->
-    <rect width="800" height="800" fill="#080c08" />
-
-    <!-- Definición del filtro de resplandor neón -->
-    <defs>
-        <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="4" result="blur1" />
-            <feGaussianBlur stdDeviation="8" result="blur2" />
-            <feGaussianBlur stdDeviation="15" result="blur3" />
-            <feMerge>
-                <feMergeNode in="blur3" />
-                <feMergeNode in="blur2" />
-                <feMergeNode in="blur1" />
-                <feMergeNode in="SourceGraphic" />
-            </feMerge>
-        </filter>
-
-        <!-- Estilo global de fuentes -->
-        <style>
-            .terminal-text {
-            font-family: 'Courier New', Courier, monospace;
-            fill: #39ff14;
-            }
-            .sub-text {
-            font-family: 'Courier New', Courier, monospace;
-            fill: #4caf50;
-            letter-spacing: 5px;
-            }
-            .footer-text {
-            font-family: 'Courier New', Courier, monospace;
-            fill: #1b4d1d;
-            letter-spacing: 2px;
-            }
-        </style>
-    </defs>
-
-    <!-- Contorno de la púa de guitarra -->
-    <path
-        d="M 400,120 C 580,120 650,250 550,450 C 480,580 400,650 400,650 C 400,650 320,580 250,450 C 150,250 220,120 400,120 Z"
-        fill="none" stroke="#39ff14" stroke-width="8" filter="url(#neon-glow)" />
-
-    <!-- Trazos de circuito (Izquierda) -->
-    <g fill="none" stroke="#39ff14" stroke-width="3" filter="url(#neon-glow)" opacity="0.8">
-        <path d="M 300,190 L 300,260 L 260,260 L 260,420 L 320,480 L 320,560" />
-        <circle cx="300" cy="190" r="4" fill="#39ff14" />
-        <circle cx="320" cy="560" r="4" fill="#39ff14" />
-
-        <path d="M 340,160 L 340,220 L 280,220 L 280,380 L 300,400" />
-        <circle cx="340" cy="160" r="4" fill="#39ff14" />
-        <circle cx="300" cy="400" r="4" fill="#39ff14" />
-
-        <path d="M 230,300 L 250,300 L 250,350" />
-        <circle cx="230" cy="300" r="3" fill="#39ff14" />
-    </g>
-
-    <!-- Trazos de circuito / Disco de vinilo (Derecha) -->
-    <g fill="none" stroke="#2b992f" stroke-width="4" filter="url(#neon-glow)" opacity="0.6">
-        <path d="M 460,230 L 460,270 L 520,270" />
-        <circle cx="460" cy="230" r="4" fill="#39ff14" />
-
-        <!-- Arcos simulando el disco de la base de datos -->
-        <path d="M 490,270 A 70 70 0 0 1 490,410" />
-        <path d="M 505,285 A 50 50 0 0 1 505,395" />
-        <path d="M 520,300 A 30 30 0 0 1 520,380" />
-
-        <path d="M 450,460 L 450,560" stroke="#39ff14" stroke-width="3" />
-        <circle cx="450" cy="560" r="4" fill="#39ff14" />
-    </g>
-
-    <!-- Símbolo del Sistema Terminal (>_) -->
-    <g transform="translate(330, 280)" fill="none" stroke="#39ff14" stroke-width="16"
-        stroke-linecap="round" stroke-linejoin="round" filter="url(#neon-glow)">
-        <!-- Símbolo mayor que (>) -->
-        <polyline points="0,0 50,45 0,90" />
-        <!-- Guion bajo (_) -->
-        <line x1="70" y1="90" x2="140" y2="90" />
-    </g>
-
-    <!-- Texto Principal -->
-    <text x="400" y="720" class="terminal-text" font-size="65" text-anchor="middle"
-        font-weight="bold" filter="url(#neon-glow)"> ROCK_DB <tspan font-size="40" fill="#88ff88">
-        v2.1</tspan>
-    </text>
-
-    <!-- Texto Secundario -->
-    <text x="400" y="755" class="sub-text" font-size="22" text-anchor="middle"
-        filter="url(#neon-glow)">
-        THE TERMINAL DATABASE
-    </text>
-
-    <!-- Pie de página (Derechos) -->
-    <text x="400" y="785" class="footer-text" font-size="11" text-anchor="middle">
-        ROCK_DB © 2026 | ALL RIGHTS RESERVED
-    </text>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#144d14"/>
+      <stop offset="100%" stop-color="#020702"/>
+    </radialGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <!-- Background, square to allow Android/iOS to mask it naturally -->
+  <rect width="192" height="192" fill="url(#bgGrad)"/>
+  <!-- Subtle inner border -->
+  <rect x="8" y="8" width="176" height="176" rx="20" fill="none" stroke="#1a7a00" stroke-width="6" opacity="0.6"/>
+  <!-- Macro Prompt -->
+  <g filter="url(#glow)">
+    <text x="30" y="138" font-family="'Courier New', monospace" font-size="124" font-weight="bold" fill="#39ff14">></text>
+    <rect x="108" y="50" width="52" height="96" fill="#39ff14"/>
+  </g>
 </svg>
