@@ -18,6 +18,7 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
             <div className="w-full max-w-[600px] border border-[#39ff14] bg-[rgba(0,30,0,0.9)] p-6 shadow-[0_0_30px_rgba(57,255,20,0.2)] animate-fade-in-echo relative">
                 <button
                     onClick={onClose}
+                    title="Cerrar modal"
                     className="absolute top-2 right-3 text-[#39ff14] hover:text-white focus:outline-none font-bold text-xl"
                 >
                     [X]
@@ -39,13 +40,15 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
                         <button
                             type="button"
                             onClick={onClose}
+                            title="Cancelar"
                             className="border border-[#1a7a00] bg-transparent px-6 py-2 text-[14px] tracking-[1px] text-[#1a7a00] transition hover:bg-[#1a7a00] hover:text-[#030d02] focus:outline-none flex-1 max-w-[200px]"
                         >
-                            <EncryptedText text="CANCELAR" revealDelayMs={15} />
+                            <EncryptedText text="CANCELAR" revealDelayMs={30} />
                         </button>
                         <button
                             type="button"
                             onClick={onConfirm}
+                            title="Aceptar canción"
                             className="animate-glow-pulse border border-[#39ff14] bg-transparent px-6 py-2 text-[14px] font-bold tracking-[2px] text-[#80ff60] transition hover:bg-[#39ff14] hover:text-[#030d02] focus:outline-none flex-1 max-w-[200px]"
                         >
                             <EncryptedText text="▶ ACEPTAR" revealDelayMs={20} />
