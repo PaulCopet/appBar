@@ -1,0 +1,136 @@
+import type { Song } from '../types/terminal';
+
+type CatalogApiSong = {
+    title?: unknown;
+    artist?: unknown;
+    year?: unknown;
+    filename?: unknown;
+};
+
+type CatalogApiResponse = {
+    pagination?: {
+        total?: unknown;
+        has_more?: unknown;
+    };
+    songs?: CatalogApiSong[];
+};
+
+type FetchMusicCatalogParams = {
+    query: string;
+    offset?: number;
+    limit?: number;
+    signal?: AbortSignal;
+};
+
+type FetchMusicCatalogResult = {
+    songs: Song[];
+    total: number;
+    hasMore: boolean;
+};
+
+const API_BASE = (() => {
+    const configured = import.meta.env.VITE_NODE_API_URL;
+    if (typeof configured !== 'string') {
+        return '';
+    }
+
+    const normalized = configured.trim();
+    return normalized.replace(/\/+$/, '');
+})();
+
+const toSafeText = (value: unknown, fallback: string) => {
+    if (typeof value !== 'string') {
+        return fallback;
+    }
+
+    const normalized = value.trim();
+    return normalized || fallback;
+};
+
+const toSafeYear = (value: unknown): number | null => {
+    if (typeof value === 'number' && Number.isFinite(value)) {
+        return Math.trunc(value);
+    }
+
+    if (typeof value === 'string') {
+        const parsed = Number.parseInt(value, 10);
+        if (Number.isFinite(parsed)) {
+            return parsed;
+        }
+    }
+
+    return null;
+};
+
+const normalizeSong = (item: CatalogApiSong): Song => {
+    const fallbackTitle = toSafeText(item.filename, 'Sin titulo');
+
+    return {
+        title: toSafeText(item.title, fallbackTitle),
+        artist: toSafeText(item.artist, 'Unknown Artist'),
+        year: toSafeYear(item.year),
+    };
+};
+
+const buildCatalogUrl = ({ query, offset = 0, limit = 500 }: FetchMusicCatalogParams) => {
+    const pathname = API_BASE ? `${API_BASE}/api/music/catalog` : '/api/music/catalog';
+    const url = new URL(pathname, window.location.origin);
+
+    url.searchParams.set('q', query);
+    url.searchParams.set('offset', String(Math.max(0, offset)));
+    url.searchParams.set('limit', String(Math.max(1, limit)));
+    url.searchParams.set('sort', 'title');
+
+    return url;
+};
+
+const parseTotal = (response: CatalogApiResponse, fallback: number) => {
+    const total = response.pagination?.total;
+    if (typeof total === 'number' && Number.isFinite(total)) {
+        return Math.trunc(total);
+    }
+
+    return fallback;
+};
+
+const parseHasMore = (response: CatalogApiResponse) => {
+    return Boolean(response.pagination?.has_more);
+};
+
+export const fetchMusicCatalog = async (
+    params: FetchMusicCatalogParams,
+): Promise<FetchMusicCatalogResult> => {
+    const url = buildCatalogUrl(params);
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+        },
+        signal: params.signal,
+    });
+
+    if (!response.ok) {
+        let detail = `No se pudo cargar catalogo (${response.status})`;
+        try {
+            const errorPayload = (await response.json()) as { detail?: unknown };
+            if (typeof errorPayload.detail === 'string' && errorPayload.detail.trim()) {
+                detail = errorPayload.detail;
+            }
+        } catch {
+            // Ignora payloads invalidos y usa el mensaje por defecto.
+        }
+
+        throw new Error(detail);
+    }
+
+    const payload = (await response.json()) as CatalogApiResponse;
+    const songs = Array.isArray(payload.songs)
+        ? payload.songs.map((item) => normalizeSong(item))
+        : [];
+
+    return {
+        songs,
+        total: parseTotal(payload, songs.length),
+        hasMore: parseHasMore(payload),
+    };
+};

@@ -1,4 +1,4 @@
-import type { Song } from '../../data/songs';
+import type { Song } from '../../types/terminal';
 
 type SelectedTrackPanelProps = {
     selectedSong: Song | null;
@@ -11,11 +11,13 @@ function SelectedTrackPanel({ selectedSong, whatsAppLabel, onSend }: SelectedTra
         return null;
     }
 
+    const yearLabel = selectedSong.year ?? '----';
+
     return (
         <section className="mt-[15px] border border-[#39ff14] bg-[rgba(0,30,0,0.63)] p-3 shadow-[0_0_20px_rgba(57,255,20,0.1)]">
             <p className="text-[11px] text-[#1a7a00]">$ SELECTED_TRACK --send-to-whatsapp 3157507977</p>
             <p className="my-2 font-terminal-display text-[24px] text-[#80ff60] [text-shadow:0_0_15px_#39ff14] max-[560px]:text-[20px]">
-                {`> "${selectedSong.title}" - ${selectedSong.artist} (${selectedSong.year})`}
+                {`> "${selectedSong.title}" - ${selectedSong.artist} (${yearLabel})`}
             </p>
 
             <div className="flex flex-wrap items-center gap-[10px] max-[560px]:flex-col max-[560px]:items-start">

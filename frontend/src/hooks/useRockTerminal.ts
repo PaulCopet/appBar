@@ -1,32 +1,82 @@
-import { useMemo, useState } from 'react';
-import { songsCatalog } from '../data/songs';
-import type { IndexedSong } from '../types/terminal';
+import { useEffect, useMemo, useState } from 'react';
+import { fetchMusicCatalog } from '../services/musicCatalog';
+import type { IndexedSong, Song } from '../types/terminal';
+
+const SEARCH_DEBOUNCE_MS = 220;
+const AUTO_REFRESH_MS = 8_000;
+const CATALOG_LIMIT = 500;
 
 export const useRockTerminal = () => {
     const [query, setQuery] = useState('');
+    const [songs, setSongs] = useState<Song[]>([]);
+    const [totalSongs, setTotalSongs] = useState(0);
+    const [hasMoreResults, setHasMoreResults] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadError, setLoadError] = useState<string | null>(null);
+    const [refreshTick, setRefreshTick] = useState(0);
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [echoMessage, setEchoMessage] = useState('');
     const [echoKey, setEchoKey] = useState(0);
 
-    const totalSongs = songsCatalog.length;
-    const selectedSong = selectedIndex === null ? null : songsCatalog[selectedIndex];
+    useEffect(() => {
+        const intervalId = window.setInterval(() => {
+            setRefreshTick((current) => current + 1);
+        }, AUTO_REFRESH_MS);
+
+        return () => {
+            window.clearInterval(intervalId);
+        };
+    }, []);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => {
+            void (async () => {
+                setIsLoading(true);
+                try {
+                    const catalog = await fetchMusicCatalog({
+                        query,
+                        offset: 0,
+                        limit: CATALOG_LIMIT,
+                        signal: controller.signal,
+                    });
+
+                    setSongs(catalog.songs);
+                    setTotalSongs(catalog.total);
+                    setHasMoreResults(catalog.hasMore);
+                    setLoadError(null);
+                } catch (error) {
+                    if (error instanceof DOMException && error.name === 'AbortError') {
+                        return;
+                    }
+
+                    setSongs([]);
+                    setTotalSongs(0);
+                    setHasMoreResults(false);
+                    setLoadError(error instanceof Error ? error.message : 'No se pudo cargar catalogo');
+                } finally {
+                    setIsLoading(false);
+                }
+            })();
+        }, SEARCH_DEBOUNCE_MS);
+
+        return () => {
+            controller.abort();
+            window.clearTimeout(timeoutId);
+        };
+    }, [query, refreshTick]);
+
+    useEffect(() => {
+        if (selectedIndex !== null && selectedIndex >= songs.length) {
+            setSelectedIndex(null);
+        }
+    }, [selectedIndex, songs.length]);
+
+    const selectedSong = selectedIndex === null ? null : songs[selectedIndex] ?? null;
 
     const filteredSongs = useMemo<IndexedSong[]>(() => {
-        const normalizedQuery = query.toLowerCase().trim();
-
-        return songsCatalog
-            .map((song, index) => ({ song, index }))
-            .filter(({ song }) => {
-                if (!normalizedQuery) {
-                    return true;
-                }
-
-                return (
-                    song.title.toLowerCase().includes(normalizedQuery) ||
-                    song.artist.toLowerCase().includes(normalizedQuery)
-                );
-            });
-    }, [query]);
+        return songs.map((song, index) => ({ song, index }));
+    }, [songs]);
 
     const showEcho = (message: string) => {
         setEchoMessage(message);
@@ -53,6 +103,9 @@ export const useRockTerminal = () => {
         selectedSong,
         totalSongs,
         filteredSongs,
+        hasMoreResults,
+        isLoading,
+        loadError,
         echoMessage,
         echoKey,
         selectSong,

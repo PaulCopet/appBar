@@ -19,6 +19,9 @@ function App() {
     selectedSong,
     totalSongs,
     filteredSongs,
+    hasMoreResults,
+    isLoading,
+    loadError,
     echoMessage,
     echoKey,
     selectSong,
@@ -83,7 +86,17 @@ function App() {
         <SearchPrompt query={query} onQueryChange={setQuery} />
 
         <div className="flex min-h-0 flex-1 flex-col">
-          <ResultsCounter totalSongs={totalSongs} filteredCount={filteredSongs.length} />
+          <ResultsCounter
+            totalSongs={totalSongs}
+            filteredCount={filteredSongs.length}
+            isLoading={isLoading}
+            hasMoreResults={hasMoreResults}
+          />
+          {loadError ? (
+            <p className="mb-2 border border-[#8a1f1f] bg-[rgba(48,9,9,0.6)] px-3 py-2 text-[12px] text-[#ff6f6f]">
+              {`ERROR API: ${loadError}`}
+            </p>
+          ) : null}
           <SongsTable
             songs={filteredSongs}
             selectedIndex={selectedIndex}

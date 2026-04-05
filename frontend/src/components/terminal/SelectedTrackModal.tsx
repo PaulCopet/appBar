@@ -1,4 +1,4 @@
-import type { Song } from '../../data/songs';
+import type { Song } from '../../types/terminal';
 import { EncryptedText } from './EncryptedText';
 import { TypewriterText } from './TypewriterText';
 
@@ -12,6 +12,8 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
     if (!selectedSong) {
         return null;
     }
+
+    const yearLabel = selectedSong.year ?? '----';
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#020702]/80 backdrop-blur-sm p-4">
@@ -31,7 +33,7 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
                     <TypewriterText text={`> "${selectedSong.title}"`} delay={300} speed={15} cursorClassName="text-[#80ff60]" />
                     <br />
                     <span className="text-[18px] text-[#39ff14]">
-                        <TypewriterText text={`${selectedSong.artist} (${selectedSong.year})`} delay={800} speed={15} cursorClassName="text-[#39ff14]" />
+                        <TypewriterText text={`${selectedSong.artist} (${yearLabel})`} delay={800} speed={15} cursorClassName="text-[#39ff14]" />
                     </span>
                 </div>
 

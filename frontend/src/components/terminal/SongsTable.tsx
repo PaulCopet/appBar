@@ -24,6 +24,7 @@ function SongsTable({ songs, selectedIndex, onSelectSong }: SongsTableProps) {
                 ) : (
                     songs.map(({ song, index }) => {
                         const isSelected = selectedIndex === index;
+                        const yearLabel = song.year ?? '----';
 
                         return (
                             <button
@@ -40,7 +41,7 @@ function SongsTable({ songs, selectedIndex, onSelectSong }: SongsTableProps) {
                                 <span className="min-w-[190px] text-[12px] text-[#1a7a00] max-[760px]:min-w-[130px] max-[560px]:hidden">
                                     {song.artist}
                                 </span>
-                                <span className="min-w-[56px] text-[12px] text-[#1a7a00] max-[760px]:hidden">{song.year}</span>
+                                <span className="min-w-[56px] text-[12px] text-[#1a7a00] max-[760px]:hidden">{yearLabel}</span>
                             </button>
                         );
                     })
