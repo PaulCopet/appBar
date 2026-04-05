@@ -130,3 +130,13 @@
 ===== START 2026-04-05 10:41:09 =====
 ◇ injecting env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
 [server]: Node.js API Server is running at http://localhost:3000
+
+===== START 2026-04-05 10:47:30 =====
+◇ injecting env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+[server]: Node.js API Server is running at http://localhost:3000
+===== STOP 2026-04-05 11:04:29 =====
+
+===== START 2026-04-05 11:05:42 =====
+◇ injecting env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+[server]: Node.js API Server is running at http://localhost:3000
+===== STOP 2026-04-05 11:08:46 =====

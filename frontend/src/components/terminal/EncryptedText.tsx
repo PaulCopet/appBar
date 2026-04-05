@@ -53,7 +53,7 @@ export const EncryptedText = ({
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
-    
+
     if (startDelayMs > 0) {
       setIsStarted(false);
       timeout = setTimeout(() => {

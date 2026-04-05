@@ -418,9 +418,18 @@ class DesktopAdminApp:
         self.runtime = runtime
         self.root = tk.Tk()
         self.root.title('Python Music Admin')
-        self.root.geometry('940x670')
-        self.root.minsize(860, 620)
+        self.root.geometry('1100x800')
+        self.root.minsize(1024, 768)
         self.root.configure(bg='#0d1d11')
+
+        try:
+            icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'icon.png')
+            if os.path.exists(icon_path):
+                from tkinter import PhotoImage
+                icon_img = PhotoImage(file=icon_path)
+                self.root.iconphoto(False, icon_img)
+        except Exception as e:
+            print(f"Aviso: No se pudo establecer el icono - {e}")
 
         self._closing = False
         self._refresh_in_progress = False
@@ -504,8 +513,8 @@ class DesktopAdminApp:
             relief='flat',
         )
         style.map('Treeview.Heading',
-                  background=[('active', '#123524')],
-                  foreground=[('active', '#a6ff9a')])
+                background=[('active', '#123524')],
+                foreground=[('active', '#a6ff9a')])
 
     def _build_ui(self) -> None:
         main = ttk.Frame(self.root, padding=14, style='Main.TFrame')

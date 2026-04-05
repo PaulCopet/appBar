@@ -91,7 +91,7 @@ function App() {
       {/* <TerminalOverlay /> */}
 
       <main className="relative z-20 mx-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden px-2 py-2 sm:px-5 sm:py-4">
-        <TerminalHeader totalSongs={totalSongs} detectedLibraryPath={detectedLibraryPath} />
+        <TerminalHeader totalSongs={totalSongs} detectedLibraryPath={detectedLibraryPath} isOffline={!!loadError} />
         <SearchPrompt query={query} onQueryChange={setQuery} />
 
         <div className="flex min-h-0 flex-1 flex-col">

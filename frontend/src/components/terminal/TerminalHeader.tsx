@@ -1,11 +1,19 @@
 type TerminalHeaderProps = {
     totalSongs: number;
     detectedLibraryPath: string;
+    isOffline?: boolean;
 };
 
 const BORDER_LINE = '################################################################################';
 
-function TerminalHeader({ totalSongs, detectedLibraryPath }: TerminalHeaderProps) {
+function TerminalHeader({ totalSongs, detectedLibraryPath, isOffline = false }: TerminalHeaderProps) {
+    const shortPath = (() => {
+        if (!detectedLibraryPath) return '';
+        const parts = detectedLibraryPath.split(/[/\\]/).filter(Boolean);
+        if (parts.length <= 2) return detectedLibraryPath;
+        return `...\\${parts.slice(-2).join('\\')}`;
+    })();
+
     return (
         <header className="mb-2 border border-[#1a7a00] bg-[rgba(0,30,0,0.4)] p-2">
             <p className="mb-1 overflow-hidden whitespace-nowrap text-[11px] text-[#1a7a00]">{BORDER_LINE}</p>
@@ -14,13 +22,22 @@ function TerminalHeader({ totalSongs, detectedLibraryPath }: TerminalHeaderProps
                     # ROCK_DATABASE ▶
                 </h1>
                 <p className="text-[11px]">
-                    # STATUS: <span className="animate-pulse font-bold tracking-[2px] text-[#39ff14] [text-shadow:0_0_8px_#39ff14]">ONLINE</span>
+                    # STATUS:{' '}
+                    {isOffline ? (
+                        <span className="animate-pulse font-bold tracking-[2px] text-[#ff3939] [text-shadow:0_0_8px_#ff3939]">
+                            OFFLINE
+                        </span>
+                    ) : (
+                        <span className="animate-pulse font-bold tracking-[2px] text-[#39ff14] [text-shadow:0_0_8px_#39ff14]">
+                            ONLINE
+                        </span>
+                    )}
                 </p>
             </div>
             <p className="text-[12px] leading-relaxed text-[#1a7a00]">
                 # HOST: rock-terminal.local # ARCH: x86_64 # SONGS: <span className="text-[#39ff14]">{totalSongs}</span>
                 <br />
-                # LIBRARY: <span className="break-all text-[#39ff14]">{detectedLibraryPath}</span>
+                # LIBRARY: <span className="break-all text-[#39ff14]">{shortPath}</span>
                 <br />
                 # SYSTEM:{' '}
                 <span className="text-[#39ff14]">ACTIVE</span> <span className="animate-blink">_</span>

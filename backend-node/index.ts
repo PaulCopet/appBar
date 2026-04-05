@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { type Request, type Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -106,7 +106,7 @@ app.post('/api/music/scan', async (req: Request, res: Response) => {
 });
 
 app.get('/api/music/scan/:scanId', async (req: Request, res: Response) => {
-  const scanId = req.params.scanId ?? '';
+  const scanId = (req.params.scanId as string) ?? '';
   const targetPath = `/api/music/scan/${encodeURIComponent(scanId)}`;
   await proxyToPython(req, res, targetPath, 'GET');
 });
