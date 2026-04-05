@@ -683,7 +683,7 @@
         "kind": 6,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "class DesktopAdminApp:\n    def __init__(self, runtime: ServiceRuntime) -> None:\n        if tk is None or ttk is None or filedialog is None or messagebox is None:\n            raise RuntimeError('Tkinter no esta disponible en este entorno.')\n        self.runtime = runtime\n        self.root = tk.Tk()\n        self.root.title('Python Music Admin')\n        self.root.geometry('940x670')\n        self.root.minsize(860, 620)\n        self.root.configure(bg='#07130a')",
+        "peekOfCode": "class DesktopAdminApp:\n    def __init__(self, runtime: ServiceRuntime) -> None:\n        if tk is None or ttk is None or filedialog is None or messagebox is None:\n            raise RuntimeError('Tkinter no esta disponible en este entorno.')\n        self.runtime = runtime\n        self.root = tk.Tk()\n        self.root.title('Python Music Admin')\n        self.root.geometry('940x670')\n        self.root.minsize(860, 620)\n        self.root.configure(bg='#0d1d11')",
         "detail": "start_all",
         "documentation": {}
     },

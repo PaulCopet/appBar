@@ -420,7 +420,7 @@ class DesktopAdminApp:
         self.root.title('Python Music Admin')
         self.root.geometry('940x670')
         self.root.minsize(860, 620)
-        self.root.configure(bg='#07130a')
+        self.root.configure(bg='#0d1d11')
 
         self._closing = False
         self._refresh_in_progress = False
@@ -464,13 +464,48 @@ class DesktopAdminApp:
         except Exception:
             pass
 
-        style.configure('Main.TFrame', background='#07130a')
+        style.configure('Main.TFrame', background='#0d1d11')
         style.configure('Card.TLabelframe', background='#0d1d11', foreground='#7eff6f')
         style.configure('Card.TLabelframe.Label', background='#0d1d11', foreground='#7eff6f')
         style.configure('TLabel', background='#0d1d11', foreground='#c6ffd0')
         style.configure('Dim.TLabel', background='#0d1d11', foreground='#84b88e')
         style.configure('Status.TLabel', background='#0d1d11', foreground='#7eff6f')
-        style.configure('Message.TLabel', background='#07130a', foreground='#88d592')
+        style.configure('Message.TLabel', background='#0d1d11', foreground='#88d592')
+
+        style.configure('TButton', background='#0d1d11', foreground='#c6ffd0', borderwidth=1)
+        style.map('TButton',
+                  background=[('active', '#123524')],
+                  foreground=[('active', '#d9ffe1')])
+
+        style.configure('TCheckbutton', background='#0d1d11', foreground='#c6ffd0')
+        style.map('TCheckbutton',
+                  background=[('active', '#0d1d11')],
+                  foreground=[('active', '#d9ffe1')])
+
+        style.configure('TEntry', fieldbackground='#0d1d11', foreground='#d9ffe1')
+
+        style.configure(
+            'Treeview',
+            background='#0d1d11',
+            fieldbackground='#0d1d11',
+            foreground='#c6ffd0',
+            bordercolor='#285233',
+            relief='flat',
+        )
+        style.map('Treeview',
+                  background=[('selected', '#145f1f')],
+                  foreground=[('selected', '#e9ffef')])
+
+        style.configure(
+            'Treeview.Heading',
+            background='#0d1d11',
+            foreground='#7eff6f',
+            bordercolor='#285233',
+            relief='flat',
+        )
+        style.map('Treeview.Heading',
+                  background=[('active', '#123524')],
+                  foreground=[('active', '#a6ff9a')])
 
     def _build_ui(self) -> None:
         main = ttk.Frame(self.root, padding=14, style='Main.TFrame')
