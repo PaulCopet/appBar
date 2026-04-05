@@ -5282,3 +5282,49 @@ INFO:     127.0.0.1:59574 - "GET /api/system/status HTTP/1.1" 200 OK
 INFO:     127.0.0.1:59577 - "GET /api/music/catalog?offset=0&limit=1&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4&dedupe=true HTTP/1.1" 200 OK
 INFO:     127.0.0.1:59578 - "GET /api/music/stats/tree HTTP/1.1" 200 OK
 ===== STOP 2026-04-05 11:08:46 =====
+
+===== START 2026-04-05 11:09:09 =====
+INFO:     Started server process [38076]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+[music-scan] Auto scan iniciado. scan_id=scan-cb369814b496 root=C:\Users\jhanc\OneDrive\Desktop\prueba\canciones_mp4
+INFO:     127.0.0.1:49159 - "GET /api/ai/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63127 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63126 - "GET /api/music/scan/latest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63128 - "GET /api/music/catalog?q=&offset=0&limit=500&sort=title&dedupe=true&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63126 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63126 - "GET /api/music/scan/latest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60851 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60852 - "GET /api/system/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56236 - "GET /api/music/catalog?offset=0&limit=1&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4&dedupe=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56237 - "GET /api/music/stats/tree HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63126 - "GET /api/music/catalog?q=&offset=0&limit=500&sort=title&dedupe=true&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56242 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56242 - "GET /api/music/catalog?q=&offset=0&limit=500&sort=title&dedupe=true&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56242 - "GET /api/music/scan/latest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/system/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56254 - "GET /api/music/catalog?offset=0&limit=1&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4&dedupe=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56259 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56260 - "GET /api/music/scan/latest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56259 - "GET /api/music/catalog?q=&offset=0&limit=500&sort=title&dedupe=true&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56262 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56263 - "GET /api/system/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56266 - "GET /api/music/catalog?offset=0&limit=1&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4&dedupe=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56273 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56273 - "GET /api/music/scan/latest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56273 - "GET /api/music/catalog?q=&offset=0&limit=500&sort=title&dedupe=true&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59979 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59980 - "GET /api/system/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59983 - "GET /api/music/catalog?offset=0&limit=1&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4&dedupe=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59984 - "GET /api/music/stats/tree HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52368 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52370 - "GET /api/music/scan/latest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52368 - "GET /api/music/catalog?q=&offset=0&limit=500&sort=title&dedupe=true&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57002 - "GET /api/music/scan/latest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57002 - "GET /api/music/catalog?q=&offset=0&limit=500&sort=title&dedupe=true&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57002 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57009 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57010 - "GET /api/system/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57013 - "GET /api/music/catalog?offset=0&limit=1&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4&dedupe=true HTTP/1.1" 200 OK
