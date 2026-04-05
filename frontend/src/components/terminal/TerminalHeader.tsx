@@ -12,7 +12,7 @@ function TerminalHeader({ totalSongs }: TerminalHeaderProps) {
                 <h1 className="animate-flicker font-terminal-display text-[1.2rem] tracking-[0.13em] text-[#80ff60] [text-shadow:0_0_20px_#39ff14,0_0_40px_#1a7a00]">
                     # ROCK_DATABASE ▶
                 </h1>
-                <p className="text-[10px]">
+                <p className="text-[11px]">
                     # STATUS: <span className="animate-pulse font-bold tracking-[2px] text-[#39ff14] [text-shadow:0_0_8px_#39ff14]">ONLINE</span>
                 </p>
             </div>
