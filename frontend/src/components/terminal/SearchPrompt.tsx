@@ -23,7 +23,7 @@ function SearchPrompt({ query, onQueryChange }: SearchPromptProps) {
                     <span className="mr-2 whitespace-nowrap text-[#39ff14]">$ grep -i</span>
                     <span className="text-[#1a7a00]">&quot;</span>
 
-                    <div className="relative flex flex-1 items-center">
+                    <div className="relative flex flex-1 items-center px-1">
                         <input
                             id="searchInput"
                             type="text"
@@ -32,7 +32,7 @@ function SearchPrompt({ query, onQueryChange }: SearchPromptProps) {
                             placeholder="queen | ac/dc"
                             autoComplete="off"
                             spellCheck={false}
-                            className="w-auto border-0 bg-transparent py-1 text-[15px] text-[#80ff60] outline-none placeholder:text-[#1a7a00]/50 [caret-color:#39ff14] sm:text-[16px]"
+                            className="w-full border-b border-[#1a7a00]/70 bg-transparent px-2 py-1 text-[15px] text-[#80ff60] outline-none transition-all placeholder:text-[#1a7a00]/50 focus:border-[#39ff14] [caret-color:#39ff14] sm:text-[16px]"
                         />
                     </div>
 

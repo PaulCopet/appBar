@@ -13,7 +13,8 @@
   }
 
   body {
-    @apply m-0 overflow-hidden antialiased;
+    @apply m-0 overflow-hidden antialiased bg-[#020702] text-[#39ff14];
     font-family: 'Share Tech Mono', monospace;
+    overscroll-behavior: none;
   }
 }
