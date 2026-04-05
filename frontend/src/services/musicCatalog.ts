@@ -19,6 +19,7 @@ type FetchMusicCatalogParams = {
     query: string;
     offset?: number;
     limit?: number;
+    rootPath?: string;
     signal?: AbortSignal;
 };
 
@@ -81,7 +82,7 @@ const normalizeSong = (item: CatalogApiSong): Song => {
     };
 };
 
-const buildCatalogUrl = ({ query, offset = 0, limit = 500 }: FetchMusicCatalogParams) => {
+const buildCatalogUrl = ({ query, offset = 0, limit = 500, rootPath }: FetchMusicCatalogParams) => {
     const pathname = API_BASE ? `${API_BASE}/api/music/catalog` : '/api/music/catalog';
     const url = new URL(pathname, window.location.origin);
 
@@ -89,33 +90,14 @@ const buildCatalogUrl = ({ query, offset = 0, limit = 500 }: FetchMusicCatalogPa
     url.searchParams.set('offset', String(Math.max(0, offset)));
     url.searchParams.set('limit', String(Math.max(1, limit)));
     url.searchParams.set('sort', 'title');
-    url.searchParams.set('dedupe', 'true');
+    url.searchParams.set('dedupe', 'false');
 
-    return url;
-};
-
-const songDedupeKey = (song: Song) => {
-    const normalizedTitle = song.title.trim().toLowerCase();
-    const normalizedArtist = song.artist.trim().toLowerCase();
-    const normalizedYear = song.year === null ? '' : String(song.year);
-    return `${normalizedTitle}|${normalizedArtist}|${normalizedYear}`;
-};
-
-const dedupeSongs = (songs: Song[]) => {
-    const seen = new Set<string>();
-    const uniqueSongs: Song[] = [];
-
-    for (const song of songs) {
-        const key = songDedupeKey(song);
-        if (seen.has(key)) {
-            continue;
-        }
-
-        seen.add(key);
-        uniqueSongs.push(song);
+    const normalizedRootPath = typeof rootPath === 'string' ? rootPath.trim() : '';
+    if (normalizedRootPath) {
+        url.searchParams.set('root_path', normalizedRootPath);
     }
 
-    return uniqueSongs;
+    return url;
 };
 
 const parseTotal = (response: CatalogApiResponse, fallback: number) => {
@@ -196,14 +178,12 @@ export const fetchMusicCatalog = async (
     }
 
     const payload = (await response.json()) as CatalogApiResponse;
-    const rawSongs = Array.isArray(payload.songs)
+    const songs = Array.isArray(payload.songs)
         ? payload.songs.map((item) => normalizeSong(item))
         : [];
 
-    const songs = dedupeSongs(rawSongs);
     const hasMore = parseHasMore(payload);
-    const totalFromApi = parseTotal(payload, songs.length);
-    const total = !hasMore && songs.length < rawSongs.length ? songs.length : totalFromApi;
+    const total = parseTotal(payload, songs.length);
 
     return {
         songs,

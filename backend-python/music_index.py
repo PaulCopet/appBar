@@ -519,7 +519,7 @@ class MusicIndexService:
         sort: str = "title",
         include_inactive: bool = False,
         root_path: Optional[str] = None,
-        dedupe: bool = True,
+        dedupe: bool = False,
     ) -> dict[str, object]:
         safe_offset = max(offset, 0)
         safe_limit = max(1, min(limit, MAX_LIMIT))
@@ -672,75 +672,38 @@ class MusicIndexService:
             "songs": songs,
         }
 
-def get_catalog_tree(self) -> dict[str, object]:
-        with self._connection() as connection:
-            rows = connection.execute(
-                "SELECT root_path, relative_path FROM songs WHERE active=1"
-            ).fetchall()
-        
-        from pathlib import Path
-        
-        # Build structure:
-        # tree = {
-        #    "count": X,
-        #    "children": {
-        #        "rock": { "count": Y, "children": {} }
-        #    }
-        # }
-        
-        roots = {}
-        for root_path, rel_path in rows:
-            if not root_path:
-                root_path = "default"
-            
-            if root_path not in roots:
-                roots[root_path] = {"count": 0, "children": {}}
-                
-            parts = Path(rel_path).parent.parts
-            
-            current = roots[root_path]
-            # It's a file in the root if parts is empty or '.' 
-            if not parts or parts == ('.',):
-                current["count"] += 1
-            else:
-                for part in parts:
-                    if part == '.': continue
-                    if part not in current["children"]:
-                        current["children"][part] = {"count": 0, "children": {}}
-                    current = current["children"][part]
-                current["count"] += 1
-                
-        return roots
-
     def get_catalog_tree(self) -> dict[str, object]:
         with self._connection() as connection:
             rows = connection.execute(
                 "SELECT root_path, relative_path FROM songs WHERE active=1"
             ).fetchall()
-        
-        from pathlib import Path
-        
-        roots = {}
+
+        roots: dict[str, dict[str, object]] = {}
+
         for root_path, rel_path in rows:
-            if not root_path:
-                root_path = "default"
-            
-            if root_path not in roots:
-                roots[root_path] = {"count": 0, "children": {}}
-                
-            parts = Path(rel_path).parent.parts
-            
-            current = roots[root_path]
-            if not parts or parts == ('.',):
-                current["count"] += 1
-            else:
-                for part in parts:
-                    if part == '.': continue
-                    if part not in current["children"]:
-                        current["children"][part] = {"count": 0, "children": {}}
-                    current = current["children"][part]
-                current["count"] += 1
-                
+            normalized_root = str(root_path or "default")
+            root_node = roots.setdefault(normalized_root, {"count": 0, "children": {}})
+
+            parent_parts = Path(str(rel_path)).parent.parts
+            clean_parts = [part for part in parent_parts if part and part != "."]
+
+            current = root_node
+            current["count"] = int(current.get("count", 0)) + 1
+
+            for part in clean_parts:
+                children = current.setdefault("children", {})
+                if not isinstance(children, dict):
+                    children = {}
+                    current["children"] = children
+
+                child = children.setdefault(part, {"count": 0, "children": {}})
+                if not isinstance(child, dict):
+                    child = {"count": 0, "children": {}}
+                    children[part] = child
+
+                child["count"] = int(child.get("count", 0)) + 1
+                current = child
+
         return roots
 
     def list_changes(self, since: Optional[str], limit: int = DEFAULT_LIMIT) -> dict[str, object]:

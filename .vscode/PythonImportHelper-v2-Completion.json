@@ -305,7 +305,7 @@
         "kind": 6,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "class MusicScanRequest(BaseModel):\n    path: str = Field(default=\"\", description=\"Carpeta raiz a escanear\")\n    full_rescan: bool = Field(default=False, description=\"Si true, fuerza recargar metadata\")\n    recursive: bool = Field(default=True, description=\"Si true, incluye subcarpetas\")\n    extensions: list[str] | None = Field(\n        default=None,\n        description=\"Extensiones de audio permitidas; por defecto usa formato comun\",\n    )\nclass MusicConfigRequest(BaseModel):\n    path: str | None = Field(default=None, description=\"Ruta de biblioteca por defecto\")",
+        "peekOfCode": "class MusicScanRequest(BaseModel):\n    path: str = Field(default=\"\", description=\"Carpeta raiz a escanear\")\n    full_rescan: bool = Field(default=False, description=\"Si true, fuerza recargar metadata\")\n    recursive: bool = Field(\n        default=True,\n        description=\"Compatibilidad con clientes antiguos: el servicio siempre escanea raiz + subcarpetas\",\n    )\n    extensions: list[str] | None = Field(\n        default=None,\n        description=\"Extensiones de audio permitidas; por defecto usa formato comun\",",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -377,7 +377,7 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def start_music_scan(request: MusicScanRequest):\n    return _start_scan(\n        path=request.path,\n        full_rescan=request.full_rescan,\n        recursive=request.recursive,\n        extensions=request.extensions,\n    )\n@app.get(\"/api/music/scan/latest\")\ndef get_latest_scan_status():\n    run = music_index.get_scan_run(_last_scan_id) if _last_scan_id else music_index.get_latest_scan_run()",
+        "peekOfCode": "def start_music_scan(request: MusicScanRequest):\n    return _start_scan(\n        path=request.path,\n        full_rescan=request.full_rescan,\n        recursive=True,\n        extensions=request.extensions,\n    )\n@app.get(\"/api/music/scan/latest\")\ndef get_latest_scan_status():\n    run = music_index.get_scan_run(_last_scan_id) if _last_scan_id else music_index.get_latest_scan_run()",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -404,7 +404,7 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def get_music_catalog(\n    q: str = Query(default=\"\"),\n    offset: int = Query(default=0, ge=0),\n    limit: int = Query(default=100, ge=1, le=500),\n    sort: str = Query(default=\"title\"),\n    include_inactive: bool = Query(default=False),\n    root_path: str | None = Query(default=None),\n    dedupe: bool = Query(default=True),\n):\n    return music_index.list_catalog(",
+        "peekOfCode": "def get_music_catalog(\n    q: str = Query(default=\"\"),\n    offset: int = Query(default=0, ge=0),\n    limit: int = Query(default=100, ge=1, le=500),\n    sort: str = Query(default=\"title\"),\n    include_inactive: bool = Query(default=False),\n    root_path: str | None = Query(default=None),\n    dedupe: bool = Query(default=False),\n):\n    return music_index.list_catalog(",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -413,16 +413,7 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def get_music_changes(\n    since: str | None = Query(default=None),\n    limit: int = Query(default=200, ge=1, le=5000),\n):\n    return music_index.list_changes(since=since, limit=limit)\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree():\n    return music_index.get_catalog_tree()\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree():",
-        "detail": "backend-python.main",
-        "documentation": {}
-    },
-    {
-        "label": "get_music_stats_tree",
-        "kind": 2,
-        "importPath": "backend-python.main",
-        "description": "backend-python.main",
-        "peekOfCode": "def get_music_stats_tree():\n    return music_index.get_catalog_tree()\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree():\n    return music_index.get_catalog_tree()",
+        "peekOfCode": "def get_music_changes(\n    since: str | None = Query(default=None),\n    limit: int = Query(default=200, ge=1, le=5000),\n):\n    return music_index.list_changes(since=since, limit=limit)\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree():\n    return music_index.get_catalog_tree()",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -598,15 +589,6 @@
         "documentation": {}
     },
     {
-        "label": "get_catalog_tree",
-        "kind": 2,
-        "importPath": "backend-python.music_index",
-        "description": "backend-python.music_index",
-        "peekOfCode": "def get_catalog_tree(self) -> dict[str, object]:\n        with self._connection() as connection:\n            rows = connection.execute(\n                \"SELECT root_path, relative_path FROM songs WHERE active=1\"\n            ).fetchall()\n        from pathlib import Path\n        # Build structure:\n        # tree = {\n        #    \"count\": X,\n        #    \"children\": {",
-        "detail": "backend-python.music_index",
-        "documentation": {}
-    },
-    {
         "label": "MutagenFile",
         "kind": 5,
         "importPath": "backend-python.music_index",
@@ -719,7 +701,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "ROOT_DIR = Path(__file__).resolve().parent\nLOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]",
+        "peekOfCode": "ROOT_DIR = Path(__file__).resolve().parent\nLOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0",
         "detail": "start_all",
         "documentation": {}
     },
@@ -728,7 +710,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "LOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:",
+        "peekOfCode": "LOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]",
         "detail": "start_all",
         "documentation": {}
     },
@@ -737,7 +719,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "CREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'",
+        "peekOfCode": "CREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:",
         "detail": "start_all",
         "documentation": {}
     },
@@ -746,7 +728,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "MANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name",
+        "peekOfCode": "MANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':",
         "detail": "start_all",
         "documentation": {}
     },
@@ -755,7 +737,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "PYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:",
+        "peekOfCode": "PYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'",
         "detail": "start_all",
         "documentation": {}
     },
@@ -764,7 +746,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "NODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':",
+        "peekOfCode": "NODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name",
         "detail": "start_all",
         "documentation": {}
     },
@@ -773,7 +755,25 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "FRONT_BASE = 'http://127.0.0.1:5173'\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':\n        return f'{PYTHON_BASE}/api/ai/status'",
+        "peekOfCode": "FRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "ADMIN_REFRESH_INTERVAL_MS",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "ADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "TREE_REFRESH_MIN_INTERVAL_SECONDS",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "TREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':\n        return f'{PYTHON_BASE}/api/ai/status'",
         "detail": "start_all",
         "documentation": {}
     },

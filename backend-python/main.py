@@ -96,7 +96,10 @@ app.add_middleware(
 class MusicScanRequest(BaseModel):
     path: str = Field(default="", description="Carpeta raiz a escanear")
     full_rescan: bool = Field(default=False, description="Si true, fuerza recargar metadata")
-    recursive: bool = Field(default=True, description="Si true, incluye subcarpetas")
+    recursive: bool = Field(
+        default=True,
+        description="Compatibilidad con clientes antiguos: el servicio siempre escanea raiz + subcarpetas",
+    )
     extensions: list[str] | None = Field(
         default=None,
         description="Extensiones de audio permitidas; por defecto usa formato comun",
@@ -203,6 +206,8 @@ def _start_scan(
     extensions: list[str] | None,
 ) -> dict[str, Any]:
     scan_root = _resolve_music_root(path)
+    # Requisito funcional: el escaneo debe ser completo desde la raiz en todas las subcarpetas.
+    effective_recursive = True
 
     with _scan_lock:
         if _active_scans:
@@ -223,7 +228,7 @@ def _start_scan(
             "scan_id": scan_id,
             "root_path": scan_root,
             "full_rescan": full_rescan,
-            "recursive": recursive,
+            "recursive": effective_recursive,
             "extensions": extensions,
         },
         daemon=True,
@@ -235,7 +240,7 @@ def _start_scan(
         "scan_id": scan_id,
         "status": "in_progress",
         "root_path": scan_root,
-        "recursive": recursive,
+        "recursive": effective_recursive,
         "full_rescan": full_rescan,
         "extensions": extensions or sorted(DEFAULT_EXTENSIONS),
     }
@@ -339,7 +344,7 @@ def start_music_scan(request: MusicScanRequest):
     return _start_scan(
         path=request.path,
         full_rescan=request.full_rescan,
-        recursive=request.recursive,
+        recursive=True,
         extensions=request.extensions,
     )
 
@@ -373,7 +378,7 @@ def get_music_catalog(
     sort: str = Query(default="title"),
     include_inactive: bool = Query(default=False),
     root_path: str | None = Query(default=None),
-    dedupe: bool = Query(default=True),
+    dedupe: bool = Query(default=False),
 ):
     return music_index.list_catalog(
         query=q,
@@ -392,10 +397,6 @@ def get_music_changes(
     limit: int = Query(default=200, ge=1, le=5000),
 ):
     return music_index.list_changes(since=since, limit=limit)
-
-@app.get("/api/music/stats/tree")
-def get_music_stats_tree():
-    return music_index.get_catalog_tree()
 
 @app.get("/api/music/stats/tree")
 def get_music_stats_tree():

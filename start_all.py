@@ -32,6 +32,8 @@ MANAGED_PORTS = (8000, 3000, 5173, 5174)
 PYTHON_BASE = 'http://127.0.0.1:8000'
 NODE_BASE = 'http://127.0.0.1:3000'
 FRONT_BASE = 'http://127.0.0.1:5173'
+ADMIN_REFRESH_INTERVAL_MS = 12_000
+TREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0
 
 
 ServiceDescriptor = dict[str, Any]
@@ -445,6 +447,7 @@ class DesktopAdminApp:
         self.message_label: Any = None
         self.dir_tree: Any = None
         self._last_loaded_path = ''
+        self._last_tree_fetch_at = 0.0
 
         self._build_styles()
         self._build_ui()
@@ -593,7 +596,7 @@ class DesktopAdminApp:
             return
 
         self._refresh_async()
-        self._safe_after(4500, self._periodic_refresh)
+        self._safe_after(ADMIN_REFRESH_INTERVAL_MS, self._periodic_refresh)
 
     def _monitor_services(self) -> None:
         if self._closing:
@@ -692,7 +695,7 @@ class DesktopAdminApp:
 
         def on_success(response: dict[str, Any]) -> None:
             scan_id = response.get('scan_id', '-')
-            self._set_message(f'Escaneo iniciado: {scan_id}')
+            self._set_message(f'Escaneo iniciado: {scan_id} | alcance=raiz+subcarpetas')
 
         self._run_background_action('Iniciando escaneo...', worker, on_success)
 
@@ -724,7 +727,7 @@ class DesktopAdminApp:
 
         snapshot['active_library_path'] = active_library_path
 
-        query_data = {'offset': 0, 'limit': 1}
+        query_data = {'offset': 0, 'limit': 1, 'dedupe': 'false'}
         if active_library_path:
             query_data['root_path'] = active_library_path
 
@@ -740,9 +743,12 @@ class DesktopAdminApp:
         else:
             snapshot['catalog_total'] = 0
             
-        ok_tree, _, tree_data = _http_json('GET', f'{PYTHON_BASE}/api/music/stats/tree', timeout=2.5)
-        if ok_tree:
-            snapshot['stats_tree'] = tree_data.get('payload', tree_data)
+        now = time.time()
+        if now - self._last_tree_fetch_at >= TREE_REFRESH_MIN_INTERVAL_SECONDS:
+            self._last_tree_fetch_at = now
+            ok_tree, _, tree_data = _http_json('GET', f'{PYTHON_BASE}/api/music/stats/tree', timeout=2.5)
+            if ok_tree:
+                snapshot['stats_tree'] = tree_data.get('payload', tree_data)
 
         return snapshot
 
@@ -849,7 +855,7 @@ class DesktopAdminApp:
                 # Show root if empty string, else name
                 display_name = name if name else "(Raiz)"
                 
-                node_id = self.dir_tree.insert(parent_id, "end", text=display_name, values=(count,), open=False)
+                node_id = self.dir_tree.insert(parent_id, "end", text=display_name, values=(count,), open=True)
                 if children:
                     _insert_nodes(node_id, children)
                     

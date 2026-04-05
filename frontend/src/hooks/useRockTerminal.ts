@@ -3,7 +3,7 @@ import { fetchDetectedLibraryPath, fetchMusicCatalog } from '../services/musicCa
 import type { IndexedSong, Song } from '../types/terminal';
 
 const SEARCH_DEBOUNCE_MS = 220;
-const AUTO_REFRESH_MS = 8_000;
+const AUTO_REFRESH_MS = 20_000;
 const CATALOG_LIMIT = 500;
 
 export const useRockTerminal = () => {
@@ -18,8 +18,34 @@ export const useRockTerminal = () => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [echoMessage, setEchoMessage] = useState('');
     const [echoKey, setEchoKey] = useState(0);
+    const [isPageVisible, setIsPageVisible] = useState(() => document.visibilityState === 'visible');
 
     useEffect(() => {
+        const onVisibilityChange = () => {
+            setIsPageVisible(document.visibilityState === 'visible');
+        };
+
+        document.addEventListener('visibilitychange', onVisibilityChange);
+
+        return () => {
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+        };
+    }, []);
+
+    const hasActiveQuery = query.trim().length > 0;
+    const isInspectingSelection = selectedIndex !== null;
+    const shouldAutoRefresh = isPageVisible && !hasActiveQuery && !isInspectingSelection;
+    const normalizedLibraryPath = detectedLibraryPath.trim();
+    const rootPathForCatalog =
+        normalizedLibraryPath && normalizedLibraryPath !== '(sin ruta configurada)'
+            ? normalizedLibraryPath
+            : undefined;
+
+    useEffect(() => {
+        if (!shouldAutoRefresh) {
+            return;
+        }
+
         const intervalId = window.setInterval(() => {
             setRefreshTick((current) => current + 1);
         }, AUTO_REFRESH_MS);
@@ -27,7 +53,7 @@ export const useRockTerminal = () => {
         return () => {
             window.clearInterval(intervalId);
         };
-    }, []);
+    }, [shouldAutoRefresh]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -56,6 +82,7 @@ export const useRockTerminal = () => {
                         query,
                         offset: 0,
                         limit: CATALOG_LIMIT,
+                        rootPath: rootPathForCatalog,
                         signal: controller.signal,
                     });
 
@@ -82,7 +109,7 @@ export const useRockTerminal = () => {
             controller.abort();
             window.clearTimeout(timeoutId);
         };
-    }, [query, refreshTick]);
+    }, [query, refreshTick, rootPathForCatalog]);
 
     useEffect(() => {
         if (selectedIndex !== null && selectedIndex >= songs.length) {
