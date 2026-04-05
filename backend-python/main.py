@@ -378,7 +378,7 @@ def get_music_catalog(
     sort: str = Query(default="title"),
     include_inactive: bool = Query(default=False),
     root_path: str | None = Query(default=None),
-    dedupe: bool = Query(default=False),
+    dedupe: bool = Query(default=True),
 ):
     return music_index.list_catalog(
         query=q,
@@ -399,6 +399,6 @@ def get_music_changes(
     return music_index.list_changes(since=since, limit=limit)
 
 @app.get("/api/music/stats/tree")
-def get_music_stats_tree():
-    return music_index.get_catalog_tree()
+def get_music_stats_tree(dedupe: bool = Query(default=True)):
+    return music_index.get_catalog_tree(dedupe=dedupe)
 

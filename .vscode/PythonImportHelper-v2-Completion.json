@@ -404,7 +404,7 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def get_music_catalog(\n    q: str = Query(default=\"\"),\n    offset: int = Query(default=0, ge=0),\n    limit: int = Query(default=100, ge=1, le=500),\n    sort: str = Query(default=\"title\"),\n    include_inactive: bool = Query(default=False),\n    root_path: str | None = Query(default=None),\n    dedupe: bool = Query(default=False),\n):\n    return music_index.list_catalog(",
+        "peekOfCode": "def get_music_catalog(\n    q: str = Query(default=\"\"),\n    offset: int = Query(default=0, ge=0),\n    limit: int = Query(default=100, ge=1, le=500),\n    sort: str = Query(default=\"title\"),\n    include_inactive: bool = Query(default=False),\n    root_path: str | None = Query(default=None),\n    dedupe: bool = Query(default=True),\n):\n    return music_index.list_catalog(",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -413,7 +413,7 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def get_music_changes(\n    since: str | None = Query(default=None),\n    limit: int = Query(default=200, ge=1, le=5000),\n):\n    return music_index.list_changes(since=since, limit=limit)\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree():\n    return music_index.get_catalog_tree()",
+        "peekOfCode": "def get_music_changes(\n    since: str | None = Query(default=None),\n    limit: int = Query(default=200, ge=1, le=5000),\n):\n    return music_index.list_changes(since=since, limit=limit)\n@app.get(\"/api/music/stats/tree\")\ndef get_music_stats_tree(dedupe: bool = Query(default=True)):\n    return music_index.get_catalog_tree(dedupe=dedupe)",
         "detail": "backend-python.main",
         "documentation": {}
     },
@@ -422,7 +422,7 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def get_music_stats_tree():\n    return music_index.get_catalog_tree()",
+        "peekOfCode": "def get_music_stats_tree(dedupe: bool = Query(default=True)):\n    return music_index.get_catalog_tree(dedupe=dedupe)",
         "detail": "backend-python.main",
         "documentation": {}
     },

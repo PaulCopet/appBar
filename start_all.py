@@ -437,7 +437,7 @@ class DesktopAdminApp:
         self.scan_id_var = tk.StringVar(value='-')
         self.scan_status_var = tk.StringVar(value='not_started')
         self.scan_stats_var = tk.StringVar(value='procesados=0 | new=0 | mod=0 | del=0')
-        self.catalog_total_var = tk.StringVar(value='0')
+        self.catalog_total_unique_var = tk.StringVar(value='0')
         self.detected_library_path_var = tk.StringVar(value='(sin ruta configurada)')
 
         self.message_var = tk.StringVar(value='Servicios iniciados. Cargando estado...')
@@ -566,7 +566,7 @@ class DesktopAdminApp:
         scan_grid.pack(fill='x')
         self._status_label(scan_grid, 'Estado actual', self.scan_status_var, 0)
         self._status_label(scan_grid, 'Estadisticas de progreso', self.scan_stats_var, 1)
-        self._status_label(scan_grid, 'Total indexado', self.catalog_total_var, 2)
+        self._status_label(scan_grid, 'Total canciones (sin repetir)', self.catalog_total_unique_var, 2)
 
         tree_frame = ttk.Frame(scan_card, style='Main.TFrame')
         tree_frame.pack(fill='both', expand=True, pady=(15, 0))
@@ -762,21 +762,24 @@ class DesktopAdminApp:
 
         snapshot['active_library_path'] = active_library_path
 
-        query_data = {'offset': 0, 'limit': 1, 'dedupe': 'false'}
+        query_data = {'offset': 0, 'limit': 1}
         if active_library_path:
             query_data['root_path'] = active_library_path
 
-        query = urllib.parse.urlencode(query_data)
-        ok_catalog, _, catalog = _http_json('GET', f'{PYTHON_BASE}/api/music/catalog?{query}', timeout=2.5)
-        if ok_catalog:
-            pagination = catalog.get('pagination', {})
+        total_unique = 0
+        query_unique = urllib.parse.urlencode({**query_data, 'dedupe': 'true'})
+        ok_catalog_unique, _, catalog_unique_payload = _http_json(
+            'GET',
+            f'{PYTHON_BASE}/api/music/catalog?{query_unique}',
+            timeout=2.5,
+        )
+        if ok_catalog_unique:
+            pagination = catalog_unique_payload.get('pagination', {})
             total = pagination.get('total', 0)
             if isinstance(total, (int, float)):
-                snapshot['catalog_total'] = int(total)
-            else:
-                snapshot['catalog_total'] = 0
-        else:
-            snapshot['catalog_total'] = 0
+                total_unique = int(total)
+
+        snapshot['catalog_total_unique'] = total_unique
             
         now = time.time()
         if now - self._last_tree_fetch_at >= TREE_REFRESH_MIN_INTERVAL_SECONDS:
@@ -863,8 +866,8 @@ class DesktopAdminApp:
                 self.scan_status_var.set('not_started')
                 self.scan_stats_var.set('procesados=0 | new=0 | mod=0 | del=0')
 
-        total = snapshot.get('catalog_total', 0)
-        self.catalog_total_var.set(str(total))
+        total_unique = snapshot.get('catalog_total_unique', 0)
+        self.catalog_total_unique_var.set(str(total_unique if isinstance(total_unique, int) else 0))
 
         active_library_path = str(snapshot.get('active_library_path', '')).strip()
         self.detected_library_path_var.set(active_library_path or '(sin ruta configurada)')

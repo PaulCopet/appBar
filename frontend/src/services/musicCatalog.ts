@@ -90,7 +90,7 @@ const buildCatalogUrl = ({ query, offset = 0, limit = 500, rootPath }: FetchMusi
     url.searchParams.set('offset', String(Math.max(0, offset)));
     url.searchParams.set('limit', String(Math.max(1, limit)));
     url.searchParams.set('sort', 'title');
-    url.searchParams.set('dedupe', 'false');
+    url.searchParams.set('dedupe', 'true');
 
     const normalizedRootPath = typeof rootPath === 'string' ? rootPath.trim() : '';
     if (normalizedRootPath) {

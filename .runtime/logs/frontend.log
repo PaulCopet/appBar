@@ -179,3 +179,38 @@ Port 5174 is in use, trying another one...
   [32m[1mVITE[22m v8.0.3[39m  [2mready in [0m[1m220[22m[2m[0m ms[22m
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+
+===== START 2026-04-05 10:26:30 =====
+
+  [32m[1mVITE[22m v8.0.3[39m  [2mready in [0m[1m269[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+===== STOP 2026-04-05 10:26:33 =====
+===== STOP 2026-04-05 10:26:56 =====
+
+===== START 2026-04-05 10:36:45 =====
+
+  [32m[1mVITE[22m v8.0.3[39m  [2mready in [0m[1m220[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+[2m10:39:15 a. m.[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/App.tsx[22m
+[2m10:39:51 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/music/config[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1637:16)
+[2m10:39:52 a. m.[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/music/catalog?q=&offset=0&limit=500&sort=title&dedupe=true&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_mp4[39m
+Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1637:16)
+
+===== START 2026-04-05 10:39:54 =====
+
+  [32m[1mVITE[22m v8.0.3[39m  [2mready in [0m[1m198[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+===== STOP 2026-04-05 10:39:56 =====
+===== STOP 2026-04-05 10:40:34 =====
+
+===== START 2026-04-05 10:41:10 =====
+
+  [32m[1mVITE[22m v8.0.3[39m  [2mready in [0m[1m219[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m

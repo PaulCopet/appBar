@@ -519,7 +519,7 @@ class MusicIndexService:
         sort: str = "title",
         include_inactive: bool = False,
         root_path: Optional[str] = None,
-        dedupe: bool = False,
+        dedupe: bool = True,
     ) -> dict[str, object]:
         safe_offset = max(offset, 0)
         safe_limit = max(1, min(limit, MAX_LIMIT))
@@ -672,11 +672,31 @@ class MusicIndexService:
             "songs": songs,
         }
 
-    def get_catalog_tree(self) -> dict[str, object]:
+    def get_catalog_tree(self, dedupe: bool = True) -> dict[str, object]:
         with self._connection() as connection:
-            rows = connection.execute(
-                "SELECT root_path, relative_path FROM songs WHERE active=1"
-            ).fetchall()
+            if dedupe:
+                rows = connection.execute(
+                    """
+                    WITH ranked AS (
+                        SELECT
+                            root_path,
+                            relative_path,
+                            ROW_NUMBER() OVER (
+                                PARTITION BY LOWER(title), LOWER(artist), COALESCE(year, -1)
+                                ORDER BY updated_at DESC, id DESC
+                            ) AS rn
+                        FROM songs
+                        WHERE active = 1
+                    )
+                    SELECT root_path, relative_path
+                    FROM ranked
+                    WHERE rn = 1
+                    """
+                ).fetchall()
+            else:
+                rows = connection.execute(
+                    "SELECT root_path, relative_path FROM songs WHERE active=1"
+                ).fetchall()
 
         roots: dict[str, dict[str, object]] = {}
 
