@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
   <!-- Fondo oscuro de la terminal -->
-  <rect width="800" height="800" fill="#080c08" />
 
   <!-- Definición del filtro de resplandor neón -->
   <defs>
@@ -77,19 +76,4 @@
     <line x1="70" y1="90" x2="140" y2="90" />
   </g>
 
-  <!-- Texto Principal -->
-  <text x="400" y="720" class="terminal-text" font-size="65" text-anchor="middle" font-weight="bold"
-    filter="url(#neon-glow)"> ROCK_DB <tspan font-size="40" fill="#88ff88">v2.1</tspan>
-  </text>
-
-  <!-- Texto Secundario -->
-  <text x="400" y="755" class="sub-text" font-size="22" text-anchor="middle"
-    filter="url(#neon-glow)">
-    THE TERMINAL DATABASE
-  </text>
-
-  <!-- Pie de página (Derechos) -->
-  <text x="400" y="785" class="footer-text" font-size="11" text-anchor="middle">
-    ROCK_DB © 2026 | ALL RIGHTS RESERVED
-  </text>
 </svg>
