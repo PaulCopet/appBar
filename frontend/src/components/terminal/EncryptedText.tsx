@@ -4,6 +4,7 @@ type EncryptedTextProps = {
   text: string;
   className?: string;
   revealDelayMs?: number;
+  startDelayMs?: number;
   charset?: string;
   flipDelayMs?: number;
   encryptedClassName?: string;
@@ -35,12 +36,14 @@ export const EncryptedText = ({
   text,
   className = "",
   revealDelayMs = 50,
+  startDelayMs = 0,
   charset = DEFAULT_CHARSET,
   flipDelayMs = 50,
   encryptedClassName = "",
   revealedClassName = "",
 }: EncryptedTextProps) => {
   const [revealCount, setRevealCount] = useState<number>(0);
+  const [isStarted, setIsStarted] = useState<boolean>(startDelayMs === 0);
   const animationFrameRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
   const lastFlipTimeRef = useRef<number>(0);
@@ -49,7 +52,22 @@ export const EncryptedText = ({
   );
 
   useEffect(() => {
-    if (!text) return;
+    let timeout: ReturnType<typeof setTimeout>;
+    
+    if (startDelayMs > 0) {
+      setIsStarted(false);
+      timeout = setTimeout(() => {
+        setIsStarted(true);
+      }, startDelayMs);
+    } else {
+      setIsStarted(true);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [startDelayMs]);
+
+  useEffect(() => {
+    if (!text || !isStarted) return;
 
     const initial = generateGibberishPreservingSpaces(text, charset);
     scrambleCharsRef.current = initial.split("");
@@ -101,7 +119,7 @@ export const EncryptedText = ({
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [text, revealDelayMs, charset, flipDelayMs]);
+  }, [text, revealDelayMs, charset, flipDelayMs, isStarted]);
 
   if (!text) return null;
 
@@ -109,7 +127,7 @@ export const EncryptedText = ({
     <span className={className} aria-label={text} role="text">
       {/* eslint-disable-next-line react-hooks/refs */}
       {text.split("").map((char, index) => {
-        const isRevealed = index < revealCount;
+        const isRevealed = isStarted && index < revealCount;
         const displayChar = isRevealed
           ? char
           : char === " "

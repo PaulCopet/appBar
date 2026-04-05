@@ -27,10 +27,10 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
                 </button>
 
                 <p className="text-[12px] text-[#1a7a00] mb-2">
-                    <EncryptedText text="$ SELECTED_TRACK --confirm-selection" revealDelayMs={10} />
+                    <EncryptedText text="$ SELECTED_TRACK --confirm-selection" revealDelayMs={60} />
                 </p>
                 <div className="mb-6 font-terminal-display text-[24px] text-[#80ff60] [text-shadow:0_0_15px_#39ff14] text-center border-y border-[#1a7a00] py-4">
-                    <TypewriterText text={`> "${selectedSong.title}"`} delay={300} speed={15} cursorClassName="text-[#80ff60]" />
+                    <TypewriterText text={`> "${selectedSong.title}"`} delay={300} speed={15} cursorClassName="text-[#80ff60]" hideCursorOnComplete={true} />
                     <br />
                     <span className="text-[18px] text-[#39ff14]">
                         <TypewriterText text={`${selectedSong.artist} (${yearLabel})`} delay={800} speed={15} cursorClassName="text-[#39ff14]" />
@@ -45,7 +45,7 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
                             title="Cancelar"
                             className="border border-[#1a7a00] bg-transparent px-6 py-2 text-[14px] tracking-[1px] text-[#1a7a00] transition hover:bg-[#1a7a00] hover:text-[#030d02] focus:outline-none flex-1 max-w-[200px]"
                         >
-                            <EncryptedText text="CANCELAR" revealDelayMs={30} />
+                            <EncryptedText text="CANCELAR" revealDelayMs={120} startDelayMs={800} />
                         </button>
                         <button
                             type="button"
@@ -53,7 +53,7 @@ export default function SelectedTrackModal({ selectedSong, onConfirm, onClose }:
                             title="Aceptar canción"
                             className="animate-glow-pulse border border-[#39ff14] bg-transparent px-6 py-2 text-[14px] font-bold tracking-[2px] text-[#80ff60] transition hover:bg-[#39ff14] hover:text-[#030d02] focus:outline-none flex-1 max-w-[200px]"
                         >
-                            <EncryptedText text="▶ ACEPTAR" revealDelayMs={20} />
+                            <EncryptedText text="▶ ACEPTAR" revealDelayMs={120} startDelayMs={800} />
                         </button>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ type TypewriterTextProps = {
   speed?: number;
   className?: string;
   cursorClassName?: string;
+  hideCursorOnComplete?: boolean;
 };
 
 export const TypewriterText = ({
@@ -14,13 +15,16 @@ export const TypewriterText = ({
   speed = 50,
   className = "",
   cursorClassName = "",
+  hideCursorOnComplete = false,
 }: TypewriterTextProps) => {
   const [displayedText, setDisplayedText] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     let typeInterval: ReturnType<typeof setTimeout>;
 
     setDisplayedText("");
+    setIsComplete(false);
 
     const timeout = setTimeout(() => {
       let currentIndex = 0;
@@ -30,6 +34,7 @@ export const TypewriterText = ({
           setDisplayedText(text.slice(0, currentIndex + 1));
           currentIndex++;
         } else {
+          setIsComplete(true);
           clearInterval(typeInterval);
         }
       }, speed);
@@ -41,9 +46,11 @@ export const TypewriterText = ({
     };
   }, [text, delay, speed]);
 
+  const showCursor = !hideCursorOnComplete || !isComplete;
+
   return (
     <span className={className}>
-      {displayedText} <span className={`animate-blink font-bold ${cursorClassName}`}>_</span>
+      {displayedText} {showCursor && <span className={`animate-blink font-bold ${cursorClassName}`}>_</span>}
     </span>
   );
 };

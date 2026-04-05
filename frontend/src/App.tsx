@@ -6,8 +6,7 @@ import {
   SelectedTrackModal,
   SongsTable,
   StatusBar,
-  TerminalHeader,
-  TerminalOverlay,
+  TerminalHeader
 } from './components/terminal';
 import { useRockTerminal } from './hooks/useRockTerminal';
 
