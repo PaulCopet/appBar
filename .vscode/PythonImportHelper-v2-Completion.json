@@ -265,6 +265,24 @@
         "documentation": {}
     },
     {
+        "label": "ipaddress",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "ipaddress",
+        "description": "ipaddress",
+        "detail": "ipaddress",
+        "documentation": {}
+    },
+    {
+        "label": "socket",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "socket",
+        "description": "socket",
+        "detail": "socket",
+        "documentation": {}
+    },
+    {
         "label": "subprocess",
         "kind": 6,
         "isExtraImport": true,
@@ -674,7 +692,7 @@
         "kind": 6,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "class ServiceRuntime:\n    def __init__(self) -> None:\n        self.services: list[ServiceDescriptor] = []\n    def start(self) -> tuple[bool, str]:\n        self.stop()\n        _free_managed_ports()\n        python_env = {\n            'MUSIC_AUTO_SCAN_ON_START': 'true',\n        }\n        try:",
+        "peekOfCode": "class ServiceRuntime:\n    def __init__(self) -> None:\n        self.services: list[ServiceDescriptor] = []\n    def start(self) -> tuple[bool, str]:\n        self.stop()\n        _free_managed_ports()\n        python_env = {\n            'MUSIC_AUTO_SCAN_ON_START': 'true',\n        }\n        node_env = {",
         "detail": "start_all",
         "documentation": {}
     },
@@ -701,7 +719,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "ROOT_DIR = Path(__file__).resolve().parent\nLOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0",
+        "peekOfCode": "ROOT_DIR = Path(__file__).resolve().parent\nLOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\ndef _detect_lan_host_fallback() -> str:\n    \"\"\"Obtiene una IP privada local para compartir el frontend en la red LAN.\"\"\"\n    try:\n        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:\n            sock.connect(('8.8.8.8', 80))",
         "detail": "start_all",
         "documentation": {}
     },
@@ -710,7 +728,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "LOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]",
+        "peekOfCode": "LOG_DIR = ROOT_DIR / '.runtime' / 'logs'\nLOG_DIR.mkdir(parents=True, exist_ok=True)\nCREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\ndef _detect_lan_host_fallback() -> str:\n    \"\"\"Obtiene una IP privada local para compartir el frontend en la red LAN.\"\"\"\n    try:\n        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:\n            sock.connect(('8.8.8.8', 80))\n            candidate = sock.getsockname()[0]",
         "detail": "start_all",
         "documentation": {}
     },
@@ -719,7 +737,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "CREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:",
+        "peekOfCode": "CREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)\nMANAGED_PORTS = (8000, 3000, 5173, 5174)\ndef _detect_lan_host_fallback() -> str:\n    \"\"\"Obtiene una IP privada local para compartir el frontend en la red LAN.\"\"\"\n    try:\n        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:\n            sock.connect(('8.8.8.8', 80))\n            candidate = sock.getsockname()[0]\n        parsed = ipaddress.ip_address(candidate)\n        if parsed.is_private:",
         "detail": "start_all",
         "documentation": {}
     },
@@ -728,7 +746,25 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "MANAGED_PORTS = (8000, 3000, 5173, 5174)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':",
+        "peekOfCode": "MANAGED_PORTS = (8000, 3000, 5173, 5174)\ndef _detect_lan_host_fallback() -> str:\n    \"\"\"Obtiene una IP privada local para compartir el frontend en la red LAN.\"\"\"\n    try:\n        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:\n            sock.connect(('8.8.8.8', 80))\n            candidate = sock.getsockname()[0]\n        parsed = ipaddress.ip_address(candidate)\n        if parsed.is_private:\n            return candidate",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "LOCAL_STATIC_HOST",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "LOCAL_STATIC_HOST = os.getenv('APP_LAN_HOST', '').strip() or _detect_lan_host_fallback()\nFRONTEND_BIND_HOST = os.getenv('FRONTEND_BIND_HOST', '').strip() or (\n    '0.0.0.0' if LOCAL_STATIC_HOST != '127.0.0.1' else '127.0.0.1'\n)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = f'http://{LOCAL_STATIC_HOST}:5173'\nFRONT_HEALTHCHECK_URL = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "FRONTEND_BIND_HOST",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "FRONTEND_BIND_HOST = os.getenv('FRONTEND_BIND_HOST', '').strip() or (\n    '0.0.0.0' if LOCAL_STATIC_HOST != '127.0.0.1' else '127.0.0.1'\n)\nPYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = f'http://{LOCAL_STATIC_HOST}:5173'\nFRONT_HEALTHCHECK_URL = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]",
         "detail": "start_all",
         "documentation": {}
     },
@@ -737,7 +773,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "PYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'",
+        "peekOfCode": "PYTHON_BASE = 'http://127.0.0.1:8000'\nNODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = f'http://{LOCAL_STATIC_HOST}:5173'\nFRONT_HEALTHCHECK_URL = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':",
         "detail": "start_all",
         "documentation": {}
     },
@@ -746,7 +782,7 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "NODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name",
+        "peekOfCode": "NODE_BASE = 'http://127.0.0.1:3000'\nFRONT_BASE = f'http://{LOCAL_STATIC_HOST}:5173'\nFRONT_HEALTHCHECK_URL = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'",
         "detail": "start_all",
         "documentation": {}
     },
@@ -755,7 +791,16 @@
         "kind": 5,
         "importPath": "start_all",
         "description": "start_all",
-        "peekOfCode": "FRONT_BASE = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:",
+        "peekOfCode": "FRONT_BASE = f'http://{LOCAL_STATIC_HOST}:5173'\nFRONT_HEALTHCHECK_URL = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name",
+        "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "FRONT_HEALTHCHECK_URL",
+        "kind": 5,
+        "importPath": "start_all",
+        "description": "start_all",
+        "peekOfCode": "FRONT_HEALTHCHECK_URL = 'http://127.0.0.1:5173'\nADMIN_REFRESH_INTERVAL_MS = 12_000\nTREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0\nServiceDescriptor = dict[str, Any]\nApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:",
         "detail": "start_all",
         "documentation": {}
     },

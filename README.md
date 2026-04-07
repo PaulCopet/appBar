@@ -151,6 +151,16 @@ cd C:/Users/jhanc/OneDrive/Desktop/my-modern-app
 python start_all.py
 ```
 
+Por defecto, `start_all.py` detecta una IP privada LAN y publica el frontend para otros dispositivos en la misma red.
+Si quieres una URL fija (siempre la misma), define la IP manualmente antes de ejecutar:
+
+```bash
+set APP_LAN_HOST=192.168.1.50
+python start_all.py
+```
+
+> Recomendado: asigna esa IP como fija/reservada en tu router para que no cambie.
+
 ## Opcion B: levantar por separado (3 terminales)
 
 ### Terminal 1 - Python API
@@ -176,9 +186,9 @@ npm run dev
 
 ## 5) URLs esperadas
 
-- Frontend: `http://127.0.0.1:5173`
-- Node API: `http://127.0.0.1:3000`
-- Python API: `http://127.0.0.1:8000`
+- Frontend (LAN): `http://<APP_LAN_HOST o IP detectada>:5173`
+- Node API (solo local del host): `http://127.0.0.1:3000`
+- Python API (solo local del host): `http://127.0.0.1:8000`
 
 ## Notas
 

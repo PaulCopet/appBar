@@ -6,6 +6,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '127.0.0.1';
 const PYTHON_SERVICE_URL = process.env.PYTHON_SERVICE_URL || 'http://localhost:8000';
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:3000')
   .split(',')
@@ -135,6 +136,6 @@ app.get('/api/system/status', async (req: Request, res: Response) => {
   await proxyToPython(req, res, '/api/system/status', 'GET');
 });
 
-app.listen(PORT, () => {
-  console.log(`[server]: Node.js API Server is running at http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`[server]: Node.js API Server is running at http://${HOST}:${PORT}`);
 });

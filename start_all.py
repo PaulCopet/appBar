@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import ipaddress
 import json
 import os
+import socket
 import subprocess
 import sys
 import threading
@@ -29,9 +31,31 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 CREATE_NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
 MANAGED_PORTS = (8000, 3000, 5173, 5174)
 
+
+def _detect_lan_host_fallback() -> str:
+    """Obtiene una IP privada local para compartir el frontend en la red LAN."""
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.connect(('8.8.8.8', 80))
+            candidate = sock.getsockname()[0]
+
+        parsed = ipaddress.ip_address(candidate)
+        if parsed.is_private:
+            return candidate
+    except Exception:
+        pass
+
+    return '127.0.0.1'
+
+
+LOCAL_STATIC_HOST = os.getenv('APP_LAN_HOST', '').strip() or _detect_lan_host_fallback()
+FRONTEND_BIND_HOST = os.getenv('FRONTEND_BIND_HOST', '').strip() or (
+    '0.0.0.0' if LOCAL_STATIC_HOST != '127.0.0.1' else '127.0.0.1'
+)
 PYTHON_BASE = 'http://127.0.0.1:8000'
 NODE_BASE = 'http://127.0.0.1:3000'
-FRONT_BASE = 'http://127.0.0.1:5173'
+FRONT_BASE = f'http://{LOCAL_STATIC_HOST}:5173'
+FRONT_HEALTHCHECK_URL = 'http://127.0.0.1:5173'
 ADMIN_REFRESH_INTERVAL_MS = 12_000
 TREE_REFRESH_MIN_INTERVAL_SECONDS = 30.0
 
@@ -52,7 +76,7 @@ def _service_health_url(name: str) -> str | None:
     if name == 'node':
         return f'{NODE_BASE}/api/status'
     if name == 'frontend':
-        return FRONT_BASE
+        return FRONT_HEALTHCHECK_URL
     return None
 
 
@@ -309,6 +333,9 @@ class ServiceRuntime:
         python_env = {
             'MUSIC_AUTO_SCAN_ON_START': 'true',
         }
+        node_env = {
+            'HOST': '127.0.0.1',
+        }
 
         try:
             python_dir = ROOT_DIR / 'backend-python'
@@ -320,9 +347,9 @@ class ServiceRuntime:
 
             node_command = [node_runner, 'index.ts'] if node_runner else [_cmd('npm'), 'run', 'dev']
             front_command = (
-                [front_runner, '--host', '127.0.0.1', '--port', '5173', '--strictPort']
+                [front_runner, '--host', FRONTEND_BIND_HOST, '--port', '5173', '--strictPort']
                 if front_runner
-                else [_cmd('npm'), 'run', 'dev', '--', '--host', '127.0.0.1', '--port', '5173', '--strictPort']
+                else [_cmd('npm'), 'run', 'dev', '--', '--host', FRONTEND_BIND_HOST, '--port', '5173', '--strictPort']
             )
 
             self.services.append(
@@ -349,6 +376,7 @@ class ServiceRuntime:
                 _start_service(
                     'node',
                     node_command,
+                    env=node_env,
                     cwd=node_dir,
                 )
             )
@@ -371,9 +399,11 @@ class ServiceRuntime:
             if not node_ready:
                 return False, 'Node API no inicio correctamente. Revisa los logs ocultos.'
 
-            front_ready = _wait_for_endpoint(FRONT_BASE, timeout_seconds=15)
+            front_ready = _wait_for_endpoint(FRONT_HEALTHCHECK_URL, timeout_seconds=15)
             if not front_ready:
                 return False, 'Frontend no inicio correctamente en el puerto 5173. Revisa los logs ocultos.'
+
+            print(f'[INFO] URL local (LAN): {FRONT_BASE}')
 
             return True, ''
         except Exception as exc:
@@ -404,7 +434,7 @@ class ServiceRuntime:
         return stopped
 
     def logs_text(self) -> str:
-        lines = []
+        lines = [f'frontend_lan_url: {FRONT_BASE}']
         for service in self.services:
             lines.append(f"{service['name']}: {service['log_path']}")
         return '\n'.join(lines)
@@ -448,8 +478,12 @@ class DesktopAdminApp:
         self.scan_stats_var = tk.StringVar(value='procesados=0 | new=0 | mod=0 | del=0')
         self.catalog_total_unique_var = tk.StringVar(value='0')
         self.detected_library_path_var = tk.StringVar(value='(sin ruta configurada)')
+        self.frontend_lan_url_var = tk.StringVar(value=FRONT_BASE)
+        self.frontend_lan_note_var = tk.StringVar(
+            value='Direccion LAN actual. Puede cambiar por DHCP al reiniciar el equipo o el router.'
+        )
 
-        self.message_var = tk.StringVar(value='Servicios iniciados. Cargando estado...')
+        self.message_var = tk.StringVar(value=f'Servicios iniciados. URL local: {FRONT_BASE} | Cargando estado...')
         self.logs_var = tk.StringVar(value=self.runtime.logs_text())
 
         self.library_entry: Any = None
@@ -543,6 +577,19 @@ class DesktopAdminApp:
         self._status_label(status_grid, 'Python API', self.python_status_var, 0)
         self._status_label(status_grid, 'Node Proxy', self.node_status_var, 1)
         self._status_label(status_grid, 'Frontend Vite', self.frontend_status_var, 2)
+
+        lan_access_frame = ttk.Frame(status_card, style='Main.TFrame')
+        lan_access_frame.pack(fill='x', pady=(10, 0))
+
+        ttk.Label(lan_access_frame, text='URL para otros dispositivos:', style='Dim.TLabel').pack(side='left')
+        ttk.Label(lan_access_frame, textvariable=self.frontend_lan_url_var, style='Status.TLabel').pack(
+            side='left',
+            padx=(8, 0),
+        )
+
+        lan_note_frame = ttk.Frame(status_card, style='Main.TFrame')
+        lan_note_frame.pack(fill='x', pady=(2, 0))
+        ttk.Label(lan_note_frame, textvariable=self.frontend_lan_note_var, style='Dim.TLabel').pack(anchor='w')
 
         config_card = ttk.LabelFrame(main, text=' Configuracion de Biblioteca ', style='Card.TLabelframe', padding=10)
         config_card.pack(fill='x', pady=(0, 8))
