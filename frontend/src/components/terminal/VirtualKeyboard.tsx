@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 type VirtualKeyboardProps = {
     isVisible: boolean;
@@ -15,6 +15,32 @@ const KEYBOARD_LAYOUT = [
 ];
 
 function VirtualKeyboard({ isVisible, query, onQueryChange, onClose }: VirtualKeyboardProps) {
+    const keyboardRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!isVisible) return;
+
+        const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+            const target = e.target as HTMLElement | null;
+            if (
+                target &&
+                keyboardRef.current &&
+                !keyboardRef.current.contains(target) &&
+                target.id !== 'searchInput'
+            ) {
+                onClose();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('touchstart', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('touchstart', handleClickOutside);
+        };
+    }, [isVisible, onClose]);
+
     if (!isVisible) return null;
 
     const handleKeyPress = (e: React.MouseEvent | React.TouchEvent, key: string) => {
@@ -38,7 +64,7 @@ function VirtualKeyboard({ isVisible, query, onQueryChange, onClose }: VirtualKe
     };
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-50 animate-[slideUp_0.3s_ease-out] border-t-2 border-[#1a7a00] bg-[#030d02] p-2 pb-6 pt-3 shadow-[0_-5px_20px_rgba(57,255,20,0.15)] sm:pb-4">
+        <div ref={keyboardRef} className="fixed bottom-0 left-0 right-0 z-50 animate-[slideUp_0.3s_ease-out] border-t-2 border-[#1a7a00] bg-[#030d02] p-2 pb-6 pt-3 shadow-[0_-5px_20px_rgba(57,255,20,0.15)] sm:pb-4">
             <div className="mx-auto flex max-w-[600px] flex-col gap-2">
                 {/* Header/Controls */}
                 <div className="flex items-center justify-between px-1 mb-1">
