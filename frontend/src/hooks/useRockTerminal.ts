@@ -19,6 +19,7 @@ export const useRockTerminal = () => {
     const [echoMessage, setEchoMessage] = useState('');
     const [echoKey, setEchoKey] = useState(0);
     const [isPageVisible, setIsPageVisible] = useState(() => document.visibilityState === 'visible');
+    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
     useEffect(() => {
         const onVisibilityChange = () => {
@@ -156,5 +157,7 @@ export const useRockTerminal = () => {
         echoKey,
         selectSong,
         confirmSelection,
+        isKeyboardVisible,
+        setIsKeyboardVisible,
     };
 };

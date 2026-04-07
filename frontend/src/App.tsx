@@ -6,7 +6,8 @@ import {
   SelectedTrackModal,
   SongsTable,
   StatusBar,
-  TerminalHeader
+  TerminalHeader,
+  VirtualKeyboard
 } from './components/terminal';
 import { useRockTerminal } from './hooks/useRockTerminal';
 
@@ -26,6 +27,8 @@ function App() {
     echoKey,
     selectSong,
     confirmSelection,
+    isKeyboardVisible,
+    setIsKeyboardVisible,
   } = useRockTerminal();
 
   useEffect(() => {
@@ -92,7 +95,11 @@ function App() {
 
       <main className="relative z-20 mx-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden px-2 py-2 sm:px-5 sm:py-4">
         <TerminalHeader totalSongs={totalSongs} detectedLibraryPath={detectedLibraryPath} isOffline={!!loadError} />
-        <SearchPrompt query={query} onQueryChange={setQuery} />
+        <SearchPrompt 
+            query={query} 
+            onQueryChange={setQuery} 
+            onFocus={() => setIsKeyboardVisible(true)} 
+        />
 
         <div className="flex min-h-0 flex-1 flex-col">
           <ResultsCounter
@@ -120,6 +127,13 @@ function App() {
         />
         <EchoMessage message={echoMessage} echoKey={echoKey} />
         <StatusBar />
+        
+        <VirtualKeyboard 
+            isVisible={isKeyboardVisible}
+            query={query}
+            onQueryChange={setQuery}
+            onClose={() => setIsKeyboardVisible(false)}
+        />
       </main>
     </div>
   );

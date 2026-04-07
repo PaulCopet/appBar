@@ -7,3 +7,4 @@ export { default as StatusBar } from './StatusBar';
 export { default as TerminalHeader } from './TerminalHeader';
 export { default as TerminalOverlay } from './TerminalOverlay';
 export { default as SelectedTrackModal } from './SelectedTrackModal';
+export { default as VirtualKeyboard } from './VirtualKeyboard';

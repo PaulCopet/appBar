@@ -1,9 +1,10 @@
 type SearchPromptProps = {
     query: string;
     onQueryChange: (value: string) => void;
+    onFocus?: () => void;
 };
 
-function SearchPrompt({ query, onQueryChange }: SearchPromptProps) {
+function SearchPrompt({ query, onQueryChange, onFocus }: SearchPromptProps) {
     return (
         <section className="mb-3 ">
             <p className="mb-2 text-[11px] tracking-[1px] text-[#1a7a00] sm:text-[12px]">
@@ -29,9 +30,11 @@ function SearchPrompt({ query, onQueryChange }: SearchPromptProps) {
                             type="text"
                             value={query}
                             onChange={(event) => onQueryChange(event.target.value)}
+                            onFocus={onFocus}
                             placeholder="queen | ac/dc"
                             autoComplete="off"
                             spellCheck={false}
+                            inputMode="none"
                             className="w-full border-b border-[#1a7a00]/70 bg-transparent px-2 pt-1 text-[15px] text-[#80ff60] outline-none transition-all placeholder:text-[#1a7a00]/50 focus:border-[#39ff14] [caret-color:#39ff14] sm:text-[16px]"
                         />
                     </div>
