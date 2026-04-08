@@ -106,6 +106,10 @@ class MusicScanRequest(BaseModel):
     )
 
 
+class MusicPlayRequest(BaseModel):
+    file_path: str = Field(..., description="Ruta absoluta de la cancion")
+
+
 class MusicConfigRequest(BaseModel):
     path: str | None = Field(default=None, description="Ruta de biblioteca por defecto")
     auto_scan_on_start: bool | None = Field(
@@ -347,6 +351,24 @@ def start_music_scan(request: MusicScanRequest):
         recursive=True,
         extensions=request.extensions,
     )
+
+
+@app.post("/api/music/play")
+def play_music(request: MusicPlayRequest):
+    try:
+        from pythonosc import udp_client
+        client = udp_client.SimpleUDPClient("127.0.0.1", 8001)
+        
+        # Enviar comando de cargar
+        vdj_path = request.file_path.replace("\\", "/") 
+        client.send_message(f'/vdj/deck/1/load/"{vdj_path}"', 1.0)
+        
+        # Opcional: Para auto play
+        client.send_message("/vdj/deck/1/play", 1.0)
+        
+        return {"status": "ok", "message": "Enviado a VDJ Deck 1"}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Fallo enviando comando OSC: {exc}")
 
 
 @app.get("/api/music/scan/latest")

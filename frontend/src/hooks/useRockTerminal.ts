@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { fetchDetectedLibraryPath, fetchMusicCatalog } from '../services/musicCatalog';
+import { fetchDetectedLibraryPath, fetchMusicCatalog, triggerVirtualDJPlay } from '../services/musicCatalog';
 import type { IndexedSong, Song } from '../types/terminal';
 
 const SEARCH_DEBOUNCE_MS = 220;
@@ -133,12 +133,24 @@ export const useRockTerminal = () => {
         setSelectedIndex(index);
     };
 
-    const confirmSelection = () => {
-        if (!selectedSong) {
-            return;
-        }
+    const confirmSelection = async () => {
+        if (!selectedSong) return;
+        
+        try {
+            showEcho(`>> ENVIANDO ${selectedSong.title.toUpperCase()} A VIRTUALDJ...`);
+            
+            // Cierra el teclado en caso de que estuviera abierto al confirmar
+            if (isKeyboardVisible) {
+                setIsKeyboardVisible(false);
+            }
 
-        showEcho('"CANCION CONFIRMADA EN LA TERMINAL"');
+            await triggerVirtualDJPlay(selectedSong.path);
+            showEcho(">> CANCION ENVIADA AL DECK 1 (OSC UDP)");
+        } catch (err) {
+            console.error(err);
+            showEcho(">> [ERROR] VDJ NO RESPONDE AL PUERTO 8001");
+        }
+        
         setSelectedIndex(null);
     };
 

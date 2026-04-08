@@ -2,8 +2,34 @@
 
 Este README deja el setup completo del proyecto con las versiones actuales detectadas y todos los comandos de instalacion.
 
-## Versiones usadas (actuales en esta maquina)
+## Quick Start (Copiar y Pegar)
 
+Si acabas de clonar el proyecto, simplemente copia todo este bloque, pégalo en tu terminal (en la raíz del proyecto) y presiona Enter:
+
+```bash
+# INSTALAR BACKEND NODE
+cd backend-node
+npm install
+cd ..
+
+# INSTALAR FRONTEND
+cd frontend
+npm install
+cd ..
+
+# INSTALAR PYTHON BACKEND & VENV
+cd backend-python
+py -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+pip install python-osc
+cd ..
+
+# LISTO, AHORA PUEDES INICIAR TODO EL PROYECTO CON:
+# py start_all.py
+```
+
+## Versiones usadas (actuales en esta maquina)
 - Python: `3.12.6`
 - pip: `26.0.1`
 - Node.js: `v24.13.0`
@@ -195,3 +221,17 @@ npm run dev
 - Si usas `.venv`, recuerda activarlo antes de ejecutar comandos Python.
 - Si cambias de version de Node o Python, borra `node_modules` y reinstala.
 - Para reproducir entorno limpio, sigue esta guia en orden (raiz -> backend-node -> frontend -> backend-python).
+
+## 6) Integración VirtualDJ OSC (Rockola Mode)
+
+Para que el frontend pueda enviar las ordenes "Cargar y Reproducir" directo a tu instancia Local de VirtualDJ, ya hemos completado la integración del API OSC nativo.
+
+SOLO COPIA Y PEGA estos comandos (con tu VirtualDJ cerrado) si clonas o reinstalas el proyecto por primera vez:
+
+```bash
+# 1. Habilitar OSC Port 8001 en VirtualDJ (Por linea de comandos PowerShell, o configuralo manual en VDJ -> Settings -> oscPort: 8001)
+# 2. Instalar el cliente python-osc en el entorno de nuestro backend
+cd C:/Users/jhanc/OneDrive/Desktop/my-modern-app/backend-python
+../.venv/Scripts/pip install python-osc   # si usas el venv local
+# o si usas el python global: pip install python-osc
+```

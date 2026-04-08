@@ -13243,3 +13243,6 @@ INFO:     127.0.0.1:54709 - "GET /api/music/config HTTP/1.1" 200 OK
 INFO:     127.0.0.1:54710 - "GET /api/system/status HTTP/1.1" 200 OK
 INFO:     127.0.0.1:54713 - "GET /api/music/catalog?offset=0&limit=1&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_reales&dedupe=true HTTP/1.1" 200 OK
 INFO:     127.0.0.1:54714 - "GET /api/music/stats/tree HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54722 - "GET /api/music/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54723 - "GET /api/system/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54726 - "GET /api/music/catalog?offset=0&limit=1&root_path=C%3A%5CUsers%5Cjhanc%5COneDrive%5CDesktop%5Cprueba%5Ccanciones_reales&dedupe=true HTTP/1.1" 200 OK

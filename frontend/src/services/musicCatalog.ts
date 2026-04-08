@@ -5,6 +5,7 @@ type CatalogApiSong = {
     artist?: unknown;
     year?: unknown;
     filename?: unknown;
+    path?: unknown;
 };
 
 type CatalogApiResponse = {
@@ -74,11 +75,13 @@ const toSafeYear = (value: unknown): number | null => {
 
 const normalizeSong = (item: CatalogApiSong): Song => {
     const fallbackTitle = toSafeText(item.filename, 'Sin titulo');
+    const path = toSafeText(item.path, '');
 
     return {
         title: toSafeText(item.title, fallbackTitle),
         artist: toSafeText(item.artist, 'Unknown Artist'),
         year: toSafeYear(item.year),
+        path,
     };
 };
 
@@ -190,4 +193,23 @@ export const fetchMusicCatalog = async (
         total,
         hasMore,
     };
+};
+
+export const triggerVirtualDJPlay = async (path: string, signal?: AbortSignal): Promise<void> => {
+    if (!path) return;
+
+    const url = buildApiUrl('/api/music/play');
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+        body: JSON.stringify({ file_path: path }),
+        signal,
+    });
+
+    if (!response.ok) {
+        throw new Error('Error enviando cancion a VirtualDJ');
+    }
 };

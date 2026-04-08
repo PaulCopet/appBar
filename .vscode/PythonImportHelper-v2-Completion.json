@@ -336,6 +336,15 @@
         "documentation": {}
     },
     {
+        "label": "MusicPlayRequest",
+        "kind": 6,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "class MusicPlayRequest(BaseModel):\n    file_path: str = Field(..., description=\"Ruta absoluta de la cancion\")\nclass MusicConfigRequest(BaseModel):\n    path: str | None = Field(default=None, description=\"Ruta de biblioteca por defecto\")\n    auto_scan_on_start: bool | None = Field(\n        default=None,\n        description=\"Si true, inicia escaneo automaticamente al levantar Python\",\n    )\ndef _current_library_path() -> str:\n    configured = str(music_config.get(\"library_path\", \"\")).strip()",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
         "label": "MusicConfigRequest",
         "kind": 6,
         "importPath": "backend-python.main",
@@ -403,7 +412,16 @@
         "kind": 2,
         "importPath": "backend-python.main",
         "description": "backend-python.main",
-        "peekOfCode": "def start_music_scan(request: MusicScanRequest):\n    return _start_scan(\n        path=request.path,\n        full_rescan=request.full_rescan,\n        recursive=True,\n        extensions=request.extensions,\n    )\n@app.get(\"/api/music/scan/latest\")\ndef get_latest_scan_status():\n    run = music_index.get_scan_run(_last_scan_id) if _last_scan_id else music_index.get_latest_scan_run()",
+        "peekOfCode": "def start_music_scan(request: MusicScanRequest):\n    return _start_scan(\n        path=request.path,\n        full_rescan=request.full_rescan,\n        recursive=True,\n        extensions=request.extensions,\n    )\n@app.post(\"/api/music/play\")\ndef play_music(request: MusicPlayRequest):\n    try:",
+        "detail": "backend-python.main",
+        "documentation": {}
+    },
+    {
+        "label": "play_music",
+        "kind": 2,
+        "importPath": "backend-python.main",
+        "description": "backend-python.main",
+        "peekOfCode": "def play_music(request: MusicPlayRequest):\n    try:\n        from pythonosc import udp_client\n        client = udp_client.SimpleUDPClient(\"127.0.0.1\", 8001)\n        # Enviar comando de cargar\n        vdj_path = request.file_path.replace(\"\\\\\", \"/\") \n        client.send_message(f'/vdj/deck/1/load/\"{vdj_path}\"', 1.0)\n        # Opcional: Para auto play\n        client.send_message(\"/vdj/deck/1/play\", 1.0)\n        return {\"status\": \"ok\", \"message\": \"Enviado a VDJ Deck 1\"}",
         "detail": "backend-python.main",
         "documentation": {}
     },
