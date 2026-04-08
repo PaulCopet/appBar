@@ -319,6 +319,14 @@
         "documentation": {}
     },
     {
+        "label": "udp_client",
+        "importPath": "pythonosc",
+        "description": "pythonosc",
+        "isExtraImport": true,
+        "detail": "pythonosc",
+        "documentation": {}
+    },
+    {
         "label": "MusicScanRequest",
         "kind": 6,
         "importPath": "backend-python.main",
@@ -838,6 +846,15 @@
         "description": "start_all",
         "peekOfCode": "ApiResult = tuple[bool, int | None, dict[str, Any]]\ndef _cmd(name: str) -> str:\n    if os.name == 'nt':\n        return f'{name}.cmd'\n    return name\ndef _service_health_url(name: str) -> str | None:\n    if name == 'python':\n        return f'{PYTHON_BASE}/api/ai/status'\n    if name == 'node':\n        return f'{NODE_BASE}/api/status'",
         "detail": "start_all",
+        "documentation": {}
+    },
+    {
+        "label": "test_vdj_osc",
+        "kind": 2,
+        "importPath": "test_osc",
+        "description": "test_osc",
+        "peekOfCode": "def test_vdj_osc():\n    # Creamos un cliente apuntando al puerto\n    client = udp_client.SimpleUDPClient(\"127.0.0.1\", 8001)\n    # Algunos comandos VDJ esperan un '1' o 1.0 (float) simulando \n    # que un boton fue presionado (valor maximo de boton MIDI/OSC)\n    print(\">> Enviando comandos OSC a VirtualDJ...\")\n    client.send_message(\"/vdj/deck/1/play\", 1.0)\n    time.sleep(1)\n    # Enviamos una query simple al action 'play' para ver si al menos no crashea\n    client.send_message(\"/vdj/deck/1/play\", 1)",
+        "detail": "test_osc",
         "documentation": {}
     }
 ]
